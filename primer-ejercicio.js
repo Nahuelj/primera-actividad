@@ -33,7 +33,7 @@ class ProductManager {
         if(this.products.length === 0){
             product.id = 0;
         }else {
-            product.id = this.products[this.products.length - 1].id++;
+            product.id = this.products[this.products.length - 1].id + 1;
         }
 
 // validacion que no falta ninguna propiedad de producto
