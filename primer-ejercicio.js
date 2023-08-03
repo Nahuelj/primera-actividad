@@ -1,7 +1,6 @@
 class ProductManager {
     constructor(){
         this.products = [];
-        this.id = 0;
     }
 
     getProducts(){
@@ -27,8 +26,15 @@ class ProductManager {
             thumbnail,
             code,
             stock,
-            id: this.id,
         };
+
+// agregando id al producto nuevo 
+
+        if(this.products.length === 0){
+            product.id = 0;
+        }else {
+            product.id = this.products[this.products.length - 1].id++;
+        }
 
 // validacion que no falta ninguna propiedad de producto
         let validation = Object.values(product);
@@ -44,8 +50,7 @@ class ProductManager {
 
     if(!existe){
         this.products.push(product);
-        console.log(`Producto agregado correctamente con id:${this.id}`);
-        this.id++;
+        console.log(`Producto agregado correctamente con id:${product.id}`);
     }else{
         console.error(`ya existe un producto con ese codigo: "${product.code}"`);
     }
