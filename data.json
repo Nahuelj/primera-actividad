@@ -1,0 +1,182 @@
+[
+    {
+        "title": "Manzana",
+        "description": "Manzana fresca y jugosa",
+        "price": 2.5,
+        "thumbnail": "manzana.jpg",
+        "code": "MANZ001",
+        "stock": 50,
+        "id": 0
+    },
+    {
+        "title": "Banana",
+        "description": "Banana amarilla y deliciosa",
+        "price": 1.8,
+        "thumbnail": "banana.jpg",
+        "code": "BANA002",
+        "stock": 70,
+        "id": 1
+    },
+    {
+        "title": "Lechuga",
+        "description": "Lechuga fresca y crujiente",
+        "price": 1.2,
+        "thumbnail": "lechuga.jpg",
+        "code": "LECH003",
+        "stock": 40,
+        "id": 2
+    },
+    {
+        "title": "Pan Integral",
+        "description": "Pan integral recién horneado",
+        "price": 3.0,
+        "thumbnail": "pan_integral.jpg",
+        "code": "PANI004",
+        "stock": 25,
+        "id": 3
+    },
+    {
+        "title": "Queso Cheddar",
+        "description": "Queso cheddar maduro y sabroso",
+        "price": 5.5,
+        "thumbnail": "queso_cheddar.jpg",
+        "code": "QUES005",
+        "stock": 15,
+        "id": 4
+    },
+    {
+        "title": "Arroz Basmati",
+        "description": "Arroz basmati de grano largo",
+        "price": 4.0,
+        "thumbnail": "arroz_basmati.jpg",
+        "code": "ARRO006",
+        "stock": 30,
+        "id": 5
+    },
+    {
+        "title": "Yogur Griego",
+        "description": "Yogur griego natural y cremoso",
+        "price": 2.2,
+        "thumbnail": "yogur_griego.jpg",
+        "code": "YOGU007",
+        "stock": 55,
+        "id": 6
+    },
+    {
+        "title": "Café Orgánico",
+        "description": "Café orgánico de origen único",
+        "price": 6.5,
+        "thumbnail": "cafe_organico.jpg",
+        "code": "CAFE008",
+        "stock": 20,
+        "id": 7
+    },
+    {
+        "title": "Tomate",
+        "description": "Tomate jugoso y lleno de sabor",
+        "price": 1.0,
+        "thumbnail": "tomate.jpg",
+        "code": "TOMA009",
+        "stock": 60,
+        "id": 8
+    },
+    {
+        "title": "Pollo Orgánico",
+        "description": "Pollo orgánico de corral",
+        "price": 8.0,
+        "thumbnail": "pollo_organico.jpg",
+        "code": "POLLO010",
+        "stock": 10,
+        "id": 9
+    },
+    {
+        "title": "Aceite de Oliva Virgen",
+        "description": "Aceite de oliva virgen extra",
+        "price": 9.5,
+        "thumbnail": "aceite_oliva.jpg",
+        "code": "ACEI011",
+        "stock": 35,
+        "id": 10
+    },
+    {
+        "title": "Salmón Fresco",
+        "description": "Filete de salmón fresco y saludable",
+        "price": 12.0,
+        "thumbnail": "salmon.jpg",
+        "code": "SALM012",
+        "stock": 18,
+        "id": 11
+    },
+    {
+        "title": "Pasta Integral",
+        "description": "Pasta integral de trigo duro",
+        "price": 2.8,
+        "thumbnail": "pasta_integral.jpg",
+        "code": "PAST013",
+        "stock": 42,
+        "id": 12
+    },
+    {
+        "title": "Naranja",
+        "description": "Naranja jugosa y refrescante",
+        "price": 1.2,
+        "thumbnail": "naranja.jpg",
+        "code": "NARA014",
+        "stock": 48,
+        "id": 13
+    },
+    {
+        "title": "Mantequilla",
+        "description": "Mantequilla fresca y cremosa",
+        "price": 3.2,
+        "thumbnail": "mantequilla.jpg",
+        "code": "MANT015",
+        "stock": 28,
+        "id": 14
+    },
+    {
+        "title": "Huevo Orgánico",
+        "description": "Huevo de gallinas criadas en libertad",
+        "price": 1.5,
+        "thumbnail": "huevo_organico.jpg",
+        "code": "HUEV016",
+        "stock": 50,
+        "id": 15
+    },
+    {
+        "title": "Miel Natural",
+        "description": "Miel pura y natural",
+        "price": 4.8,
+        "thumbnail": "miel.jpg",
+        "code": "MIEL017",
+        "stock": 22,
+        "id": 16
+    },
+    {
+        "title": "Avena",
+        "description": "Avena integral para un desayuno saludable",
+        "price": 1.8,
+        "thumbnail": "avena.jpg",
+        "code": "AVEN018",
+        "stock": 55,
+        "id": 17
+    },
+    {
+        "title": "Chocolate Negro",
+        "description": "Tableta de chocolate negro intenso",
+        "price": 3.5,
+        "thumbnail": "chocolate_negro.jpg",
+        "code": "CHOC019",
+        "stock": 30,
+        "id": 18
+    },
+    {
+        "title": "Mango",
+        "description": "Mango tropical y jugoso",
+        "price": 2.0,
+        "thumbnail": "mango.jpg",
+        "code": "MANG020",
+        "stock": 40,
+        "id": 19
+    }
+]

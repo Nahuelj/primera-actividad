@@ -1,21 +1,26 @@
 {
-  "name": "primera-actividad-coderhouse",
-  "version": "1.0.0",
-  "description": "",
-  "main": "primer-ejercicio.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint": "^8.47.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.28.0",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "prettier": "^3.0.1"
-  }
+    "name": "primera-actividad-coderhouse",
+    "version": "1.0.0",
+    "description": "",
+    "main": "primer-ejercicio.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon ./app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "eslint": "^8.47.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-config-standard": "^17.1.0",
+        "eslint-plugin-import": "^2.28.0",
+        "eslint-plugin-n": "^16.0.1",
+        "eslint-plugin-promise": "^6.1.1",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.1"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    }
 }
