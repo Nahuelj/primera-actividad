@@ -1,11 +1,11 @@
 {
-    "name": "primera-actividad-coderhouse",
+    "name": "proyecto-backend-coderhouse",
     "version": "1.0.0",
     "description": "",
-    "main": "primer-ejercicio.js",
+    "main": "./src/app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon ./app.js"
+        "dev": "nodemon ./src/app.js"
     },
     "keywords": [],
     "author": "",

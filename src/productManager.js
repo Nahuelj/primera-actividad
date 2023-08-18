@@ -1,6 +1,6 @@
 const fs = require("fs");
 class ProductManager {
-    constructor(ruta = "./data.json") {
+    constructor(ruta = "./src/data.json") {
         this.path = ruta;
         this.createFile();
     }
