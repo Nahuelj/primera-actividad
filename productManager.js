@@ -20,8 +20,6 @@ class ProductManager {
         if (products.length === 0) {
             return console.log("No hay productos agregados []");
         } else {
-            console.log("Tus productos son:");
-            console.log(products);
             return products;
         }
     }

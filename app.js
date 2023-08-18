@@ -7,19 +7,23 @@ app.listen(PORT, console.log(`Servidor corriendo en http://localhost:${PORT}`));
 
 app.get("/", (req, res) => {
     res.send(
-        "Bienvenido: /products para ver todos los productos o /products/:id para ver un producto especifico según su id",
+        "Bienvenido: /products para ver todos los productos o /products/:pid para ver un producto especifico según su id",
     );
 });
 
-// agregar query param !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 app.get("/products", (req, res) => {
+    const limit = parseInt(req.query.limit);
     const products = Manager.getProducts();
-    res.json(products);
+    if (limit) {
+        const limitedProducts = products.slice(0, limit);
+        return res.json(limitedProducts);
+    }
+    return res.json(products);
 });
 
-app.get("/products/:id", (req, res) => {
-    const id = parseInt(req.params.id);
-    const product = Manager.getProductById(id);
+app.get("/products/:pid", (req, res) => {
+    const pid = parseInt(req.params.pid);
+    const product = Manager.getProductById(pid);
     if (!product) {
         return res.status(404).send("Product not found");
     }
