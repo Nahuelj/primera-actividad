@@ -1,5 +1,6 @@
-const fs = require("fs");
-class ProductManager {
+import fs from "fs";
+
+export class ProductManager {
     constructor(ruta = "./src/data.json") {
         this.path = ruta;
         this.createFile();
@@ -38,7 +39,17 @@ class ProductManager {
 
     addProduct(objeto = {}) {
         // desestructurando para agregar al producto
-        const { title, description, price, thumbnail, code, stock } = objeto;
+        const {
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock,
+            status,
+            category,
+        } = objeto;
+
         // definiendo el modelo de producto
         const product = {
             title,
@@ -47,9 +58,20 @@ class ProductManager {
             thumbnail,
             code,
             stock,
+            status,
+            category,
         };
         // agregando validacion para que no se agregue si faltan propiedades
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
+        if (
+            !title ||
+            !description ||
+            !price ||
+            !thumbnail ||
+            !code ||
+            !stock ||
+            !status ||
+            !category
+        ) {
             // array de props que faltan definir
             const propiedadesFaltantes = [];
             // bucle que comprueba cuales faltan y las agrega al array
@@ -131,7 +153,3 @@ class ProductManager {
         }
     }
 }
-
-module.exports = {
-    ProductManager,
-};
