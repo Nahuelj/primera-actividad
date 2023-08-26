@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { Manager } from "../app.js";
+import { ProductManager } from "../productManager.js";
+
+const productManager = new ProductManager();
+
 export const productsRouter = Router();
 
 productsRouter.get("/", (req, res) => {
@@ -8,7 +11,7 @@ productsRouter.get("/", (req, res) => {
 
 productsRouter.get("/products", (req, res) => {
     const limit = parseInt(req.query.limit);
-    const products = Manager.getProducts();
+    const products = productManager.getProducts();
     if (limit) {
         const limitedProducts = products.slice(0, limit);
         return res.json(limitedProducts);
@@ -18,7 +21,7 @@ productsRouter.get("/products", (req, res) => {
 
 productsRouter.get("/products/:pid", (req, res) => {
     const pid = parseInt(req.params.pid);
-    const product = Manager.getProductById(pid);
+    const product = productManager.getProductById(pid);
     if (!product) {
         return res.status(404).json({ message: "Product not found" });
     }
@@ -28,7 +31,7 @@ productsRouter.get("/products/:pid", (req, res) => {
 productsRouter.post("/products", (req, res) => {
     try {
         const product = req.body;
-        const response = Manager.addProduct(product);
+        const response = productManager.addProduct(product);
         res.status(200).json({ message: response });
     } catch (error) {
         console.log(error);
@@ -45,7 +48,7 @@ productsRouter.put("/products/:pid", (req, res) => {
                 message: "Invalid product data format, must be an object",
             });
         }
-        const response = Manager.updateProduct(pid, productUpdate);
+        const response = productManager.updateProduct(pid, productUpdate);
         return res
             .status(200)
             .json({ message: "The product was updated", response });
@@ -61,7 +64,7 @@ productsRouter.delete("/products/:pid", (req, res) => {
         if (!pid) {
             return res.status(400).json({ message: "product id not provided" });
         }
-        const response = Manager.deleteProduct(pid);
+        const response = productManager.deleteProduct(pid);
         return res.status(200).json({ message: response });
     } catch (error) {
         console.log(error);

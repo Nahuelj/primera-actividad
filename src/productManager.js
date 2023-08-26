@@ -1,7 +1,7 @@
 import fs from "fs";
 
 export class ProductManager {
-    constructor(ruta = "./src/data.json") {
+    constructor(ruta = "./src/products.json") {
         this.path = ruta;
         this.createFile();
     }
@@ -9,9 +9,9 @@ export class ProductManager {
     createFile() {
         try {
             fs.readFileSync(this.path, "utf8");
-            console.log("Archivo encontrado");
+            console.log("File found");
         } catch (error) {
-            console.log("Archivo no encontrado se procedera a crearlo");
+            console.log("File not found, it will be created");
             fs.writeFileSync(this.path, JSON.stringify([], null, 2));
         }
     }
@@ -19,7 +19,7 @@ export class ProductManager {
     getProducts() {
         let products = JSON.parse(fs.readFileSync(this.path, "utf8"));
         if (products.length === 0) {
-            return console.log("No hay productos agregados []");
+            return console.log("No products added []");
         } else {
             return products;
         }
@@ -30,10 +30,10 @@ export class ProductManager {
         const busqueda = products.find((objeto) => objeto.id === idBuscado);
 
         if (busqueda) {
-            console.log(`Objeto con el id:${idBuscado} encontrado:`, busqueda);
+            console.log(`Object with id:${idBuscado} found:`, busqueda);
             return busqueda;
         } else {
-            console.log(`No se encontró ningún objeto con el id:${idBuscado}`);
+            console.log(`Object with id:${idBuscado} not found`);
         }
     }
 
@@ -141,11 +141,11 @@ export class ProductManager {
             products = objetoEliminado.sort((a, b) => a.id - b.id);
             // actualizamos la lista con el producto nuevo
             fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
-            return `Objeto con el id:${idBuscado} encontrado y eliminado`;
+            return `Object with id:${idBuscado} found and removed`;
         } else if (idBuscado === undefined) {
-            return "Se requiere el id para eliminar el producto";
+            return "The id is required to delete the product";
         } else {
-            return `No se encontró ningún objeto con el id:${idBuscado}`;
+            return `Product with id:${idBuscado} not found`;
         }
     }
 }
