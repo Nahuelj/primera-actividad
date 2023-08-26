@@ -43,7 +43,7 @@ export class ProductManager {
             title,
             description,
             price,
-            thumbnail,
+            thumbnails,
             code,
             stock,
             status,
@@ -55,7 +55,7 @@ export class ProductManager {
             title,
             description,
             price,
-            thumbnail,
+            thumbnails,
             code,
             stock,
             status,
@@ -66,7 +66,6 @@ export class ProductManager {
             !title ||
             !description ||
             !price ||
-            !thumbnail ||
             !code ||
             !stock ||
             !status ||
@@ -80,10 +79,9 @@ export class ProductManager {
                     propiedadesFaltantes.push(key);
                 }
             }
-            return console.error(
-                "Faltan definir las propiedades:",
-                propiedadesFaltantes.join(", "),
-            );
+            return `Need to define the properties ${propiedadesFaltantes.join(
+                ", ",
+            )}`;
         }
         // agregando id al producto nuevo
         let products = JSON.parse(fs.readFileSync(this.path, "utf8"));
@@ -102,18 +100,16 @@ export class ProductManager {
             // actualizamos la lista con el producto nuevo
             fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
             // mostramos todo en consola
-            console.log(`Producto agregado correctamente con id:${product.id}`);
+            return `Product successfully added with id:${product.id}`;
         } else {
-            return console.error(
-                `ya existe un producto con ese codigo: "${product.code}"`,
-            );
+            return `There is already a product with that code: "${product.code}"`;
         }
     }
 
     updateProduct(idBuscado, propiedadesActualizadas) {
         let products = JSON.parse(fs.readFileSync(this.path, "utf8"));
         const indice = products.findIndex((objeto) => objeto.id === idBuscado);
-        const { title, description, price, thumbnail, code, stock } =
+        const { title, description, price, thumbnails, code, stock } =
             propiedadesActualizadas;
 
         if (indice !== -1) {
@@ -121,15 +117,15 @@ export class ProductManager {
                 title: title ?? products[indice].title,
                 description: description ?? products[indice].description,
                 price: price ?? products[indice].price,
-                thumbnail: thumbnail ?? products[indice].thumbnail,
+                thumbnails: thumbnails ?? products[indice].thumbnails,
                 code: code ?? products[indice].code,
                 stock: stock ?? products[indice].stock,
                 id: products[indice].id,
             };
             fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
-            console.log("Se actualizo el producto", products[indice]);
+            return "The product was updated", products[indice];
         } else {
-            console.log("ID no encontrado en la base de datos");
+            return "ID not found in database";
         }
     }
 
@@ -145,11 +141,11 @@ export class ProductManager {
             products = objetoEliminado.sort((a, b) => a.id - b.id);
             // actualizamos la lista con el producto nuevo
             fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
-            console.log(`Objeto con el id:${idBuscado} encontrado y eliminado`);
+            return `Objeto con el id:${idBuscado} encontrado y eliminado`;
         } else if (idBuscado === undefined) {
-            console.log("Se requiere el id para eliminar el producto");
+            return "Se requiere el id para eliminar el producto";
         } else {
-            console.log(`No se encontró ningún objeto con el id:${idBuscado}`);
+            return `No se encontró ningún objeto con el id:${idBuscado}`;
         }
     }
 }
