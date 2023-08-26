@@ -30,10 +30,9 @@ export class ProductManager {
         const busqueda = products.find((objeto) => objeto.id === idBuscado);
 
         if (busqueda) {
-            console.log(`Object with id:${idBuscado} found:`, busqueda);
             return busqueda;
         } else {
-            console.log(`Object with id:${idBuscado} not found`);
+            return `Object with id:${idBuscado} not found`;
         }
     }
 

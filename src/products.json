@@ -182,20 +182,6 @@
     "category": "verdura"
   },
   {
-    "title": "Kiwi",
-    "description": "Kiwi exótico y refrescante",
-    "price": 1,
-    "thumbnails": [
-      "kiwi_1.jpg",
-      "kiwi_2.jpg"
-    ],
-    "code": "KIWI033",
-    "stock": 35,
-    "id": 13,
-    "status": true,
-    "category": "fruta"
-  },
-  {
     "title": "Cebolla",
     "description": "Cebolla aromática para tus platillos",
     "price": 0.4,
