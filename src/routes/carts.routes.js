@@ -44,6 +44,26 @@ cartsRouter.get("/carts/:cid", (req, res) => {
     }
 });
 
+function checkQuantity(cid, pid) {
+    const responseCart = cartManager.getCartById(cid);
+    const responseProduct = productManager.getProductById(pid);
+
+    if (
+        typeof responseCart === "object" &&
+        typeof responseProduct === "object"
+    ) {
+        const pid = responseProduct.id;
+        const existProductInCart = responseCart.find(
+            (product) => product.id === pid,
+        );
+        if (existProductInCart) {
+            const quantityUpdate = existProductInCart.quantity++;
+            // aca aplicaria la el cartManager.updateProduct(existProductInCart.id, {quantity: quantityUpdate})
+        } else {
+        }
+    }
+}
+
 cartsRouter.post("/carts/:cid/product/:pid", (req, res) => {
     try {
         const cid = parseInt(req.params.cid);

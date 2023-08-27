@@ -42,8 +42,7 @@
       4,
       5,
       {
-        "id": 1,
-        "quantity": 1
+        "quantity": 1234
       }
     ],
     "id": 1
@@ -75,6 +74,14 @@
       {
         "id": 16,
         "quantity": 1
+      },
+      {
+        "id": 16,
+        "quantity": 1
+      },
+      {
+        "id": 16,
+        "quantity": 1
       }
     ],
     "id": 2
@@ -93,7 +100,19 @@
   },
   {
     "products": [
-      3
+      3,
+      {
+        "id": 16,
+        "quantity": 1
+      },
+      {
+        "id": 16,
+        "quantity": 1
+      },
+      {
+        "id": 16,
+        "quantity": 1
+      }
     ],
     "id": 5
   },

@@ -1,3 +1,4 @@
+import { response } from "express";
 import fs from "fs";
 
 export class CartManager {
@@ -74,4 +75,35 @@ export class CartManager {
             return `Product with id:${idBuscado} not found`;
         }
     }
+
+    updateProduct(idCart, idProductInCart, propertiesUpdated) {
+        let carts = JSON.parse(fs.readFileSync(this.path, "utf8"));
+        console.log("CARTS", carts);
+        const indexCart = carts.findIndex((objeto) => objeto.id === idCart);
+        console.log("INDEXCART", indexCart);
+        if (indexCart === -1) return `Cart with id:${idCart} not found`;
+
+        // buscar indice de el producto en el carro
+        const cartProduct = carts[indexCart].products;
+        console.log("CARTPORDUCT", cartProduct);
+        const indexProduct = cartProduct.findIndex(
+            (object) => object.id === idProductInCart,
+        );
+        console.log("INDEXPRODUCT", indexProduct);
+        if (indexProduct !== -1) {
+            const { quantity } = propertiesUpdated;
+            carts[indexCart].products[indexProduct] = {
+                quantity:
+                    quantity ??
+                    carts[indexCart].products[indexProduct].quantity,
+            };
+            fs.writeFileSync(this.path, JSON.stringify(carts, null, 2));
+            return `Product with id:${idProductInCart} in cart with id:${idCart} updated`;
+        } else {
+            return `Product with id:${idProductInCart} not found in cart with id:${idCart}`;
+        }
+    }
 }
+
+const manager = new CartManager();
+manager.updateProduct(1, 1, { quantity: 1234 });
