@@ -76,7 +76,7 @@ export class CartManager {
         }
     }
 
-    updateProduct(idCart, idProductInCart, propertiesUpdated) {
+    updateProductInCart(idCart, idProductInCart, propertiesUpdated) {
         let carts = JSON.parse(fs.readFileSync(this.path, "utf8"));
         console.log("CARTS", carts);
         const indexCart = carts.findIndex((objeto) => objeto.id === idCart);
@@ -106,4 +106,3 @@ export class CartManager {
 }
 
 const manager = new CartManager();
-manager.updateProduct(1, 1, { quantity: 1234 });
