@@ -60,7 +60,7 @@ export class CartManager {
             fs.writeFileSync(this.path, JSON.stringify(carts, null, 2));
             return "The product was added to the cart", carts[indice];
         } else {
-            return "ID not found in database";
+            return `Cart with id:${id} not found`;
         }
     }
 
@@ -71,7 +71,7 @@ export class CartManager {
         if (busqueda) {
             return busqueda;
         } else {
-            return `Product with id:${idBuscado} not found`;
+            return `Cart with id:${idBuscado} not found`;
         }
     }
 

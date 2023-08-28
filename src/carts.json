@@ -17,8 +17,12 @@
       "agua",
       "harina",
       {
-        "quantity": 3,
+        "quantity": 7,
         "id": 1
+      },
+      {
+        "quantity": 7,
+        "id": 9
       }
     ],
     "id": 1
@@ -29,16 +33,16 @@
       "agua",
       "harina",
       {
-        "quantity": 3,
+        "quantity": 5,
         "id": 1
       },
       {
-        "quantity": 3,
+        "quantity": 5,
         "id": 2
       },
       {
-        "id": 4,
-        "quantity": 1
+        "quantity": 5,
+        "id": 4
       }
     ],
     "id": 2
@@ -58,5 +62,21 @@
       "harina"
     ],
     "id": 4
+  },
+  {
+    "products": [
+      "pc",
+      "impresora",
+      "tvs"
+    ],
+    "id": 5
+  },
+  {
+    "products": [
+      "pc",
+      "impresora",
+      "tvs"
+    ],
+    "id": 6
   }
 ]

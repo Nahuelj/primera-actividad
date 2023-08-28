@@ -22,6 +22,9 @@ cartsRouter.post("/carts", (req, res) => {
 cartsRouter.get("/carts", (req, res) => {
     try {
         const response = cartManager.getCarts();
+        if (!response) {
+            return res.status(200).json({ message: "No added carts" });
+        }
         return res.status(200).json(response);
     } catch (error) {
         console.log(error);
@@ -33,8 +36,8 @@ cartsRouter.get("/carts/:cid", (req, res) => {
     try {
         const cid = parseInt(req.params.cid);
         const cart = cartManager.getCartById(cid);
-        if (!cart) {
-            return res.status(404).json({ message: "Cart not found" });
+        if (typeof cart == "string") {
+            return res.status(404).json({ message: cart });
         }
         const productsCart = cart.products;
         return res.status(200).json(productsCart);

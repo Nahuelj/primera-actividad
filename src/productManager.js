@@ -32,7 +32,7 @@ export class ProductManager {
         if (busqueda) {
             return busqueda;
         } else {
-            return `Object with id:${idBuscado} not found`;
+            return `Product with id:${idBuscado} not found`;
         }
     }
 
@@ -124,7 +124,7 @@ export class ProductManager {
             fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
             return "The product was updated", products[indice];
         } else {
-            return "ID not found in database";
+            return `Product with id:${idBuscado} not found`;
         }
     }
 
