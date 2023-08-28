@@ -1,86 +1,43 @@
 [
   {
     "products": [
-      "lkajdsf",
-      "laksdjf",
-      "leche",
-      "leche",
-      "leche",
-      "leche",
-      "leche",
-      "lecheeee",
-      "lecheeee",
-      "aguas",
-      "aguas",
-      "aguas",
-      "aguas",
+      "cocacola",
+      "agua",
+      "harina",
       {
-        "id": 3,
-        "quantity": 1
-      },
-      {
-        "id": 1,
-        "quantity": 1
-      },
-      {
-        "id": 1,
-        "quantity": 1
-      },
-      {
-        "id": 1,
-        "quantity": 1
+        "quantity": 123,
+        "id": 16
       }
     ],
     "id": 0
   },
   {
     "products": [
-      1,
-      2,
-      "HOALflka",
-      3,
-      4,
-      5,
+      "cocacola",
+      "agua",
+      "harina",
       {
-        "quantity": 1234
+        "quantity": 3,
+        "id": 1
       }
     ],
     "id": 1
   },
   {
     "products": [
-      1,
-      2,
-      "HOALflka",
-      3,
-      4,
-      5,
+      "cocacola",
+      "agua",
+      "harina",
       {
-        "id": 10,
-        "quantity": 1
+        "quantity": 3,
+        "id": 1
       },
       {
-        "id": 10,
-        "quantity": 1
+        "quantity": 3,
+        "id": 2
       },
       {
-        "id": 10,
-        "quantity": 1
-      },
-      {
-        "id": 11,
-        "quantity": 1
-      },
-      {
-        "id": 16,
-        "quantity": 1
-      },
-      {
-        "id": 16,
-        "quantity": 1
-      },
-      {
-        "id": 16,
+        "id": 4,
         "quantity": 1
       }
     ],
@@ -88,61 +45,18 @@
   },
   {
     "products": [
-      1
+      "cocacola",
+      "agua",
+      "harina"
     ],
     "id": 3
   },
   {
     "products": [
-      2
+      "cocacola",
+      "agua",
+      "harina"
     ],
     "id": 4
-  },
-  {
-    "products": [
-      3,
-      {
-        "id": 16,
-        "quantity": 1
-      },
-      {
-        "id": 16,
-        "quantity": 1
-      },
-      {
-        "id": 16,
-        "quantity": 1
-      }
-    ],
-    "id": 5
-  },
-  {
-    "products": [
-      4
-    ],
-    "id": 6
-  },
-  {
-    "products": [
-      4,
-      "lkasjdflk"
-    ],
-    "id": 7
-  },
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina"
-    ],
-    "id": 8
-  },
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina"
-    ],
-    "id": 9
   }
 ]

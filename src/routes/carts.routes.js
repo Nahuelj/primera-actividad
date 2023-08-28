@@ -44,32 +44,25 @@ cartsRouter.get("/carts/:cid", (req, res) => {
     }
 });
 
-function checkQuantity(cid, pid) {
-    const responseCart = cartManager.getCartById(cid);
-    const responseProduct = productManager.getProductById(pid);
-
-    if (
-        typeof responseCart === "object" &&
-        typeof responseProduct === "object"
-    ) {
-        const pid = responseProduct.id;
-        const existProductInCart = responseCart.find(
-            (product) => product.id === pid,
-        );
-        if (existProductInCart) {
-            const quantityUpdate = existProductInCart.quantity++;
-            // aca aplicaria la el cartManager.updateProduct(existProductInCart.id, {quantity: quantityUpdate})
-        } else {
-        }
-    }
-}
-
 cartsRouter.post("/carts/:cid/product/:pid", (req, res) => {
     try {
         const cid = parseInt(req.params.cid);
         const pid = parseInt(req.params.pid);
-        const productResponse = productManager.getProductById(pid);
 
+        //si el producto ya existe sumamos 1 a quantity
+        const existProductInCart = cartManager.getProductInCart(cid, pid);
+        if (typeof existProductInCart == "object") {
+            cartManager.updateProductInCart(cid, pid, {
+                quantity: existProductInCart.quantity + 1,
+            });
+            const response = cartManager.getCartById(cid);
+            return res.status(200).json({
+                message: response,
+            });
+        }
+
+        // sino se procede a crear y agregar el product al carro
+        const productResponse = productManager.getProductById(pid);
         if (typeof productResponse === "object") {
             const productToCart = {
                 id: productResponse.id,
