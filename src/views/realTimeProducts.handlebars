@@ -1,0 +1,11 @@
+<h1>Productos actualizados en tiempo real</h1>
+<div>
+    <h2>Productos disponibles</h2>
+    <ol id="container">
+        {{#each products}}
+            <li>{{title}}, Precio: ${{price}}</li>
+        {{/each}}
+    </ol>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/index.js"></script>

@@ -9,7 +9,7 @@ export class ProductManager {
     createFile() {
         try {
             fs.readFileSync(this.path, "utf8");
-            console.log("File found");
+            console.log("Products file found");
         } catch (error) {
             console.log("File not found, it will be created");
             fs.writeFileSync(this.path, JSON.stringify([], null, 2));

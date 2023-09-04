@@ -1,82 +1,63 @@
 [
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina",
-      {
-        "quantity": 123,
-        "id": 16
-      }
-    ],
-    "id": 0
-  },
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina",
-      {
-        "quantity": 7,
+    {
+        "products": [
+            "cocacola",
+            "agua",
+            "harina",
+            {
+                "quantity": 123,
+                "id": 16
+            }
+        ],
+        "id": 0
+    },
+    {
+        "products": [
+            "cocacola",
+            "agua",
+            "harina",
+            {
+                "quantity": 7,
+                "id": 1
+            },
+            {
+                "quantity": 7,
+                "id": 9
+            }
+        ],
         "id": 1
-      },
-      {
-        "quantity": 7,
-        "id": 9
-      }
-    ],
-    "id": 1
-  },
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina",
-      {
-        "quantity": 5,
-        "id": 1
-      },
-      {
-        "quantity": 5,
+    },
+    {
+        "products": [
+            {
+                "quantity": 5,
+                "id": 1
+            },
+            {
+                "quantity": 5,
+                "id": 2
+            },
+            {
+                "quantity": 5,
+                "id": 4
+            }
+        ],
         "id": 2
-      },
-      {
-        "quantity": 5,
+    },
+    {
+        "products": ["cocacola", "agua", "harina"],
+        "id": 3
+    },
+    {
+        "products": ["cocacola", "agua", "harina"],
         "id": 4
-      }
-    ],
-    "id": 2
-  },
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina"
-    ],
-    "id": 3
-  },
-  {
-    "products": [
-      "cocacola",
-      "agua",
-      "harina"
-    ],
-    "id": 4
-  },
-  {
-    "products": [
-      "pc",
-      "impresora",
-      "tvs"
-    ],
-    "id": 5
-  },
-  {
-    "products": [
-      "pc",
-      "impresora",
-      "tvs"
-    ],
-    "id": 6
-  }
+    },
+    {
+        "products": ["pc", "impresora", "tvs"],
+        "id": 5
+    },
+    {
+        "products": ["pc", "impresora", "tvs"],
+        "id": 6
+    }
 ]
