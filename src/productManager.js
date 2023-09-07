@@ -87,7 +87,9 @@ export class ProductManager {
         if (products.length === 0) {
             product.id = 0;
         } else {
-            product.id = products.length;
+            const ids = products.map((objeto) => objeto.id);
+            const maxId = ids.length > 0 ? Math.max(...ids) : null;
+            product.id = maxId + 1;
         }
 
         // validación que no se repita el valor de la propiedad code entre productos del array de productos

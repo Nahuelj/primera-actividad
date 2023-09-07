@@ -1,11 +1,28 @@
 <h1>Productos actualizados en tiempo real</h1>
 <div>
-    <h2>Productos disponibles</h2>
-    <ol id="container">
-        {{#each products}}
-            <li>{{title}}, Precio: ${{price}}</li>
-        {{/each}}
-    </ol>
+    <h4>Agregar producto</h4>
+    <label for="product">Producto</label>
+    <input id="producto" type="text" placeholder="Title" />
+    <label for="price">Precio</label>
+    <input id="price" type="number" placeholder="Price" />
+    <label for="codigo">Codigo</label>
+    <input id="code" type="text" placeholder="Code" />
+    <button id="submit">Agregar Producto</button>
 </div>
+<div>
+    <h4>Eliminar producto</h4>
+    <label for="id"></label>
+    <input id="id" placeholder="Id" type="number" />
+    <button id="delete">Eliminar</button>
+</div>
+<div>
+    <h2>Productos disponibles</h2>
+    <ul id="container">
+        {{#each products}}
+            <li>{{id}} {{title}}, Precio: ${{price}}</li>
+        {{/each}}
+    </ul>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="/index.js"></script>

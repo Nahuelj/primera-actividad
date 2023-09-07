@@ -54,20 +54,6 @@
     "category": "fruta"
   },
   {
-    "title": "Tomate",
-    "description": "Tomate jugoso y sabroso",
-    "price": 0.4,
-    "thumbnails": [
-      "tomate_1.jpg",
-      "tomate_2.jpg"
-    ],
-    "code": "TOMA004",
-    "stock": 25,
-    "id": 4,
-    "status": true,
-    "category": "verdura"
-  },
-  {
     "title": "Naranja",
     "description": "Naranja fresca llena de vitamina C",
     "price": 0.7,
@@ -300,31 +286,33 @@
     "id": 23
   },
   {
-    "title": "Sprite",
-    "description": "Refresco de lima",
-    "price": 2.2,
-    "code": "SPRI323",
+    "title": "Cebollas",
+    "description": "Cebollas",
+    "price": 0.6,
+    "code": "CEBL2asdf",
     "stock": 20,
     "status": true,
-    "category": "Bebidas",
+    "category": "Verduras",
     "id": 24
   },
   {
-    "title": "Fanta",
-    "description": "Gaseosa sabor naranja",
-    "price": 1.4,
-    "code": "FANT223",
-    "stock": 20,
+    "title": "Caldos de Verduras",
+    "description": "product added from realtimeProducts",
+    "price": "0.2",
+    "code": "Cals23",
+    "stock": 123,
     "status": true,
-    "category": "Bebidas",
+    "category": "unknown",
     "id": 25
   },
   {
-    "title": "Garbanzos",
-    "description": "Paquete de garbanzos",
-    "price": 1.8,
-    "code": "GARB223",
-    "stock": 20,
+    "title": "Cacao ",
+    "description": "product added from realtimeProducts",
+    "price": "1.4",
+    "code": "calks",
+    "stock": 123,
+    "status": true,
+    "category": "unknown",
     "id": 26
   }
 ]

@@ -39,7 +39,9 @@ export class CartManager {
         if (carts.length === 0) {
             newCart.id = 0;
         } else {
-            newCart.id = carts.length;
+            const ids = carts.map((objeto) => objeto.id);
+            const maxId = ids.length > 0 ? Math.max(...ids) : null;
+            newCart.id = maxId + 1;
         }
 
         // agregamos el cart

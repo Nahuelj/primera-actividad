@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { productManager } from "./products.routes.js";
-import { io } from "../app.js";
 
 export const viewsRouter = Router();
 
