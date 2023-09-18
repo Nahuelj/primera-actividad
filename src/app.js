@@ -5,6 +5,7 @@ import { productsRouter } from "./routes/products.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { Server } from "socket.io";
+
 // Express
 const app = express();
 app.use(express.json());
