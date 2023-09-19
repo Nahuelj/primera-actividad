@@ -5,6 +5,7 @@ import { productsRouter } from "./routes/products.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { Server } from "socket.io";
+import mongoose from "mongoose";
 
 // Express
 const app = express();
@@ -20,7 +21,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
-//Route not found
+// Route not found
 app.use((req, res) => {
     res.status(404).send("Page not found");
 });
@@ -36,3 +37,22 @@ export const io = new Server(httpServer);
 io.on("connection", (socket) => {
     console.log(`se ha conectado un cliente con id: ${socket.id}`);
 });
+
+//MongoDb connection
+
+async function connectToDatabase() {
+    try {
+        await mongoose.connect(
+            "mongodb+srv://nahueljosebenitez7:123Coder@cluster0.93y9tit.mongodb.net/ecommerce",
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            },
+        );
+        console.log("Successful connection to MongoDB");
+    } catch (error) {
+        console.error("MongoDB connection error:", error);
+    }
+}
+
+connectToDatabase();

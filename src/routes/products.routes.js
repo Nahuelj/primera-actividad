@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductManager } from "../dao/fileSystem/productManager.js";
+import { ProductManager } from "../dao/mongoDb/productManagerMongoDb.js";
 import { io } from "../app.js";
 
 export const productManager = new ProductManager();
@@ -10,9 +10,9 @@ productsRouter.get("/", (req, res) => {
     res.send("Servidor corriendo");
 });
 
-productsRouter.get("/products", (req, res) => {
+productsRouter.get("/products", async (req, res) => {
     const limit = parseInt(req.query.limit);
-    const products = productManager.getProducts();
+    const products = await productManager.getProducts();
     if (limit) {
         const limitedProducts = products.slice(0, limit);
         return res.json(limitedProducts);
@@ -20,21 +20,22 @@ productsRouter.get("/products", (req, res) => {
     res.json(products);
 });
 
-productsRouter.get("/products/:pid", (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const product = productManager.getProductById(pid);
+productsRouter.get("/products/:pid", async (req, res) => {
+    const pid = req.params.pid; // si es fileSystem esto debe ser parseado a Num si es para mongo db esta bien como string
+    const product = await productManager.getProductById(pid);
+    console.log(product);
     if (!product) {
         return res.status(404).json({ message: "Product not found" });
     }
     res.json(product);
 });
 
-productsRouter.post("/products", (req, res) => {
+productsRouter.post("/products", async (req, res) => {
     try {
         const product = req.body;
-        const response = productManager.addProduct(product);
-        res.status(200).json({ message: response });
-        //Socket io /realTimeProducts
+        const response = await productManager.addProduct(product);
+        res.status(200).json({ product: response });
+        // Socket io /realTimeProducts
         const productsUpdated = productManager.getProducts();
         io.emit("update", productsUpdated);
     } catch (error) {
@@ -64,13 +65,13 @@ productsRouter.put("/products/:pid", (req, res) => {
     }
 });
 
-productsRouter.delete("/products/:pid", (req, res) => {
+productsRouter.delete("/products/:pid", async (req, res) => {
     try {
-        const pid = parseInt(req.params.pid);
+        const pid = req.params.pid; // si es fileSystem esto debe ser parseado a Num si es para mongo db esta bien como string
         if (!pid) {
             return res.status(400).json({ message: "product id not provided" });
         }
-        const response = productManager.deleteProduct(pid);
+        const response = await productManager.deleteProduct(pid);
         res.status(200).json({ message: response });
         //Socket io /realTimeProducts
         const productsUpdated = productManager.getProducts();

@@ -1,34 +1,11 @@
-import mongoose from "mongoose";
 import { ProductModel } from "../models/product.model.js";
+import mongoose from "mongoose";
 
-export class ProductManagerMongoDb {
-    constructor() {
-        this.connectToDatabase();
-    }
-
-    async connectToDatabase() {
-        if (mongoose.connection.readyState === 1) {
-            // La conexión ya está abierta (conectada)
-            console.log("La base de datos ya está conectada.");
-            return;
-        }
-        try {
-            await mongoose.connect(
-                "mongodb+srv://nahueljosebenitez7:123Coder@cluster0.93y9tit.mongodb.net/ecommerce",
-                {
-                    useNewUrlParser: true,
-                    useUnifiedTopology: true,
-                },
-            );
-            console.log("Conexión exitosa a MongoDB");
-        } catch (error) {
-            console.error("Error de conexión a MongoDB:", error);
-        }
-    }
-
+export class ProductManager {
     async getProducts() {
         try {
-            const products = await UserModel.find();
+            const products = await ProductModel.find();
+            console.log(products);
             if (products.length === 0) {
                 return console.log("No products found");
             } else {
@@ -41,7 +18,7 @@ export class ProductManagerMongoDb {
 
     async getProductById(idBuscado) {
         try {
-            const product = await UserModel.findOne({ id: idBuscado });
+            const product = await ProductModel.findOne({ _id: idBuscado });
             if (product) {
                 return product;
             } else {
@@ -54,19 +31,23 @@ export class ProductManagerMongoDb {
 
     async addProduct(objeto = {}) {
         try {
-            const product = new UserModel(objeto);
+            const product = new ProductModel(objeto);
             const result = await product.save();
-            console.log(`Product successfully added with id:${result.id}`);
+            console.log(`Product successfully added with id:${result._id}`);
             return result;
         } catch (error) {
-            console.error("Error al agregar producto:", error.message);
-            return `Error al agregar producto: ${error.message}`;
+            if (error.code === 11000 && error.keyPattern.code) {
+                console.log(`Product with code ${objeto.code} already exists`);
+                return `Product with code ${objeto.code} already exists`;
+            }
+            console.error("Error adding product:", error.message);
+            return `Error adding product: ${error.message}`;
         }
     }
 
     async updateProduct(idBuscado, propiedadesActualizadas) {
         try {
-            const product = await UserModel.findOneAndUpdate(
+            const product = await ProductModel.findOneAndUpdate(
                 { id: idBuscado },
                 propiedadesActualizadas,
                 { new: true },
@@ -83,7 +64,9 @@ export class ProductManagerMongoDb {
 
     async deleteProduct(idBuscado) {
         try {
-            const product = await UserModel.findOneAndDelete({ id: idBuscado });
+            const product = await ProductModel.findOneAndDelete({
+                _id: idBuscado,
+            });
             if (product) {
                 return `Object with id:${idBuscado} found and removed`;
             } else if (idBuscado === undefined) {
@@ -92,7 +75,7 @@ export class ProductManagerMongoDb {
                 return `Product with id:${idBuscado} not found`;
             }
         } catch (error) {
-            console.error("Error al eliminar producto:", error);
+            console.error("Something went wrong:", error);
         }
     }
 }

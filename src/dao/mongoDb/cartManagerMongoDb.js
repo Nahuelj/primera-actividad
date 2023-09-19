@@ -1,28 +1,6 @@
-import mongoose from "mongoose";
 import { CartModel } from "../models/cart.model.js";
 
-export class CartManagerMongoDb {
-    constructor() {
-        this.connectToDatabase();
-    }
-
-    async connectToDatabase() {
-        if (mongoose.connection.readyState === 1) {
-            // La conexión ya está abierta (conectada)
-            console.log("La base de datos ya está conectada.");
-            return;
-        }
-        try {
-            await mongoose.connect("mongodb://localhost/tu_base_de_datos", {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            });
-            console.log("Conexión exitosa a MongoDB");
-        } catch (error) {
-            console.error("Error de conexión a MongoDB:", error);
-        }
-    }
-
+export class CartManager {
     async createCart(object = {}) {
         try {
             const cart = new CartModel(object);
