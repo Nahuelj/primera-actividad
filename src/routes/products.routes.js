@@ -72,7 +72,7 @@ productsRouter.delete("/products/:pid", async (req, res) => {
             return res.status(400).json({ message: "product id not provided" });
         }
         const response = await productManager.deleteProduct(pid);
-        res.status(200).json({ message: response });
+        res.status(200).json({ message: "product removed", product: response });
         //Socket io /realTimeProducts
         const productsUpdated = productManager.getProducts();
         io.emit("update", productsUpdated);

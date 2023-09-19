@@ -1,5 +1,4 @@
 import { ProductModel } from "../models/product.model.js";
-import mongoose from "mongoose";
 
 export class ProductManager {
     async getProducts() {
@@ -7,12 +6,13 @@ export class ProductManager {
             const products = await ProductModel.find();
             console.log(products);
             if (products.length === 0) {
-                return console.log("No products found");
+                return "No products found";
             } else {
                 return products;
             }
         } catch (error) {
             console.error("Error al obtener productos:", error);
+            return error;
         }
     }
 
@@ -26,6 +26,7 @@ export class ProductManager {
             }
         } catch (error) {
             console.error("Error al obtener producto por ID:", error);
+            return error;
         }
     }
 
@@ -68,7 +69,7 @@ export class ProductManager {
                 _id: idBuscado,
             });
             if (product) {
-                return `Object with id:${idBuscado} found and removed`;
+                return product;
             } else if (idBuscado === undefined) {
                 return "The id is required to delete the product";
             } else {
