@@ -44,16 +44,16 @@ productsRouter.post("/products", async (req, res) => {
     }
 });
 
-productsRouter.put("/products/:pid", (req, res) => {
+productsRouter.put("/products/:pid", async (req, res) => {
     try {
-        const pid = parseInt(req.params.pid);
+        const pid = req.params.pid; // si es fileSystem esto debe ser parseado a Num si es para mongo db esta bien como string
         const productUpdate = req.body;
         if (typeof productUpdate !== "object") {
             return res.status(400).json({
                 message: "Invalid product data format, must be an object",
             });
         }
-        const response = productManager.updateProduct(pid, productUpdate);
+        const response = await productManager.updateProduct(pid, productUpdate);
         res.status(200).json({ message: "The product was updated", response });
 
         //Socket io /realTimeProducts

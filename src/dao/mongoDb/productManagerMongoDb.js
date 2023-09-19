@@ -48,7 +48,7 @@ export class ProductManager {
     async updateProduct(idBuscado, propiedadesActualizadas) {
         try {
             const product = await ProductModel.findOneAndUpdate(
-                { id: idBuscado },
+                { _id: idBuscado },
                 propiedadesActualizadas,
                 { new: true },
             );
