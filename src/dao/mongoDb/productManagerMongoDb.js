@@ -25,8 +25,7 @@ export class ProductManager {
                 return `Product with id:${idBuscado} not found`;
             }
         } catch (error) {
-            console.error("Error al obtener producto por ID:", error);
-            return error;
+            return "Error fetching product";
         }
     }
 
