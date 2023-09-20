@@ -74,9 +74,7 @@ cartsRouter.post("/carts/:cid/products/:pid", async (req, res) => {
 
     try {
         cart.products.push({ _id: product._id, quantity: quantityVefiqued });
-        const response = await cart.save();
         res.status(200).json({ message: "cart saved" });
-        console.log(response);
     } catch (error) {
         console.error("error en el cath", error);
     }

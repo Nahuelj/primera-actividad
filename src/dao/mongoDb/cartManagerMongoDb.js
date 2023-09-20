@@ -72,7 +72,9 @@ export class CartManager {
                 return `Cart with id:${cartId} not found`;
             }
 
-            const product = cart.products.find((p) => p._id === productId);
+            const product = cart.products.find(
+                (p) => p._id.toHexString() === productId,
+            );
 
             if (!product) {
                 return `Product with id:${productId} not found in cart with id:${cartId}`;
@@ -80,6 +82,7 @@ export class CartManager {
 
             return product;
         } catch (error) {
+            console.error(error);
             return { Error: error };
         }
     }
