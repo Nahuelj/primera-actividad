@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { CartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import { productManager } from "../routes/products.routes.js";
-import { CartModel } from "../dao/models/cart.model.js";
-import mongoose from "mongoose";
 
 const cartManager = new CartManager();
 export const cartsRouter = Router();
@@ -77,15 +75,17 @@ cartsRouter.post("/carts/:cid/products/:pid", async (req, res) => {
         const productInCart = await cartManager.getProductInCart(cid, pid);
         if (typeof productInCart === "object") {
             const indexProduct = cart.products.findIndex(
+                // es ._id._id xq los productos vienen poblados y se requiere meterse dentro del objeto dos veces
                 (p) => p._id._id.toHexString() === pid,
             );
 
             cart.products[indexProduct].quantity =
                 cart.products[indexProduct].quantity + quantityVefiqued;
             cart.save();
-            return res
-                .status(200)
-                .json({ message: "existing product, updated quantity" });
+            return res.status(200).json({
+                message: "existing product, updated quantity",
+                cart: cart,
+            });
         }
         // sino simplemente lo posteamos en el array de productos
         cart.products.push({ _id: product._id, quantity: quantityVefiqued });
@@ -96,6 +96,7 @@ cartsRouter.post("/carts/:cid/products/:pid", async (req, res) => {
     }
 });
 
+// ESTA ERA MI RUTA A LA HORA DE TRABAJAR CON FILESYSTEM
 // cartsRouter.post("/carts/:cid/product/:pid", async (req, res) => {
 //     try {
 //         const cid = req.params.cid; // con fs hay que parsear esto
