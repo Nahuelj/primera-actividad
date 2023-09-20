@@ -3,18 +3,12 @@ import { productManager } from "./products.routes.js";
 
 export const viewsRouter = Router();
 
-viewsRouter.get("/", (req, res) => {
-    const products = productManager.getProducts();
-    const render = {
-        products: products,
-    };
-    res.render("home", render);
+viewsRouter.get("/", async (req, res) => {
+    const products = await productManager.getProducts();
+    res.render("home", { products });
 });
 
-viewsRouter.get("/realtimeproducts", (req, res) => {
-    const products = productManager.getProducts();
-    const render = {
-        products: products,
-    };
-    res.render("realTimeProducts", render);
+viewsRouter.get("/realtimeproducts", async (req, res) => {
+    const products = await productManager.getProducts();
+    res.render("realTimeProducts", { products });
 });

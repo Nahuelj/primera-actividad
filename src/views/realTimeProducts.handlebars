@@ -12,14 +12,14 @@
 <div>
     <h4>Eliminar producto</h4>
     <label for="id"></label>
-    <input id="id" placeholder="Id" type="number" />
+    <input id="id" placeholder="Id"  />
     <button id="delete">Eliminar</button>
 </div>
 <div>
     <h2>Productos disponibles</h2>
     <ul id="container">
         {{#each products}}
-            <li>{{id}} {{title}}, Precio: ${{price}}</li>
+            <li>{{_id}} {{title}}, Precio: ${{price}}</li>
         {{/each}}
     </ul>
 </div>

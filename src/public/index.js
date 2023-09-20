@@ -5,7 +5,7 @@ socket.on("update", (data) => {
     container.innerHTML = "";
     data.forEach((product) => {
         const li = document.createElement("li");
-        li.textContent = `${product.id} ${product.title}, Precio: $${product.price}`;
+        li.textContent = `${product._id} ${product.title}, Precio: $${product.price}`;
         container.appendChild(li);
     });
 });
@@ -64,29 +64,25 @@ const idInput = document.getElementById("id");
 const buttonDelete = document.getElementById("delete");
 
 function deleteProduct() {
-    if (idInput.value !== "") {
-        let id = idInput.value;
-        const url = `http://localhost:8080/api/products/${id}`;
-        const requestOptions = {
-            method: "DELETE",
-        };
+    let id = idInput.value;
+    const url = `http://localhost:8080/api/products/${id}`;
+    const requestOptions = {
+        method: "DELETE",
+    };
 
-        fetch(url, requestOptions)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    } else {
-        alert("id de producto es requerido");
-    }
+    fetch(url, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 buttonDelete.addEventListener("click", deleteProduct);

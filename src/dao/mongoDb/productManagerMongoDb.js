@@ -3,8 +3,7 @@ import { ProductModel } from "../models/product.model.js";
 export class ProductManager {
     async getProducts() {
         try {
-            const products = await ProductModel.find();
-            console.log(products);
+            const products = await ProductModel.find().lean();
             if (products.length === 0) {
                 return "No products found";
             } else {
