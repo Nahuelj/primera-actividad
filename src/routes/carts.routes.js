@@ -73,8 +73,24 @@ cartsRouter.post("/carts/:cid/products/:pid", async (req, res) => {
     }
 
     try {
+        // si el producto existe le sumamos 1 a la cantidada o la cant especificada
+        const productInCart = await cartManager.getProductInCart(cid, pid);
+        if (typeof productInCart === "object") {
+            const indexProduct = cart.products.findIndex(
+                (p) => p._id._id.toHexString() === pid,
+            );
+
+            cart.products[indexProduct].quantity =
+                cart.products[indexProduct].quantity + quantityVefiqued;
+            cart.save();
+            return res
+                .status(200)
+                .json({ message: "existing product, updated quantity" });
+        }
+        // sino simplemente lo posteamos en el array de productos
         cart.products.push({ _id: product._id, quantity: quantityVefiqued });
-        res.status(200).json({ message: "cart saved" });
+        cart.save();
+        res.status(200).json({ cart_saved: cart.products });
     } catch (error) {
         console.error("error en el cath", error);
     }

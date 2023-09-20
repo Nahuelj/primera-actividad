@@ -83,7 +83,7 @@ export class CartManager {
             return product;
         } catch (error) {
             console.error(error);
-            return { Error: error };
+            return "Something went wrong";
         }
     }
 
