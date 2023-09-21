@@ -1,11 +1,12 @@
 import express from "express";
-import handlebars from "express-handlebars";
+import handlebars, { engine } from "express-handlebars";
 import { __dirname } from "./utils.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
+import { MessageModel } from "./dao/models/message.model.js";
 
 // Express
 const app = express();
@@ -17,9 +18,9 @@ app.use("/api", productsRouter);
 app.use("/api", cartsRouter);
 app.use(viewsRouter);
 //Handlebars
-app.engine("handlebars", handlebars.engine());
+app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
+app.set("view engine", "hbs");
 app.use(express.static(__dirname + "/public"));
 // Route not found
 app.use((req, res) => {
@@ -34,8 +35,24 @@ const httpServer = app.listen(
 // Socket.io
 export const io = new Server(httpServer);
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     console.log(`se ha conectado un cliente con id: ${socket.id}`);
+    // como se conecta uno recibimos de allá el emmit "id"
+    socket.on("id", async (nombre) => {
+        // emitimos que se conecto alguien para que alla salga la toast
+        socket.broadcast.emit("newUser", nombre);
+        //objetenemos los mensajes para cargarlos alla
+        const messages = await MessageModel.find().lean();
+        // se los mandamos para que los reciban con el on
+        socket.emit("getMessagesStart", messages);
+        // cuando alguien envie un mensaje se emite messageSend y aca se procesa para guardar todo en base de datos
+        socket.on("messageSend", async (model) => {
+            await MessageModel.create(model);
+            const messages = await MessageModel.find().lean();
+            socket.emit("reloadMessages", messages);
+            socket.broadcast.emit("reloadMessagesForOthers", messages);
+        });
+    });
 });
 
 //MongoDb connection

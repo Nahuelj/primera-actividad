@@ -12,3 +12,7 @@ viewsRouter.get("/realtimeproducts", async (req, res) => {
     const products = await productManager.getProducts();
     res.render("realTimeProducts", { products });
 });
+
+viewsRouter.get("/chat", async (req, res) => {
+    res.render("chat");
+});
