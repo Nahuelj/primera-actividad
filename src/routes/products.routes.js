@@ -11,12 +11,12 @@ productsRouter.get("/", (req, res) => {
 });
 
 productsRouter.get("/products", async (req, res) => {
-    const limit = parseInt(req.query.limit);
-    const products = await productManager.getProducts();
-    if (limit) {
-        const limitedProducts = products.slice(0, limit);
-        return res.json(limitedProducts);
-    }
+    const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+    const sort = req.body.sort ? req.body.sort : {};
+    const query = req.body.query ? req.body.query : {};
+    const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+
+    const products = await productManager.getProducts(query, limit, sort);
     res.json(products);
 });
 

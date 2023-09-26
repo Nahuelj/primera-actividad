@@ -1,9 +1,12 @@
 import { ProductModel } from "../models/product.model.js";
 
 export class ProductManager {
-    async getProducts() {
+    async getProducts(query = {}, limit = 10, sort = {}) {
         try {
-            const products = await ProductModel.find().lean();
+            const products = await ProductModel.find(query)
+                .limit(limit)
+                .sort(sort)
+                .lean();
             if (products.length === 0) {
                 return "No products found";
             } else {
@@ -11,7 +14,6 @@ export class ProductManager {
             }
         } catch (error) {
             console.error("Error al obtener productos:", error);
-            return error;
         }
     }
 
