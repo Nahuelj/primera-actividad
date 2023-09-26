@@ -112,4 +112,20 @@ export class CartManager {
             return "Error updating product in cart";
         }
     }
+
+    async deleteProductInCart(cartId, productId) {
+        try {
+            const cart = await CartModel.findOneAndUpdate(
+                { _id: cartId },
+                { $pull: { products: { _id: productId } } },
+                { new: true },
+            );
+
+            if (cart) {
+                return cart;
+            }
+        } catch (error) {
+            console.error("Something went wrong:", error);
+        }
+    }
 }

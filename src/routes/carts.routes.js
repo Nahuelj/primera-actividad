@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { CartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import { productManager } from "../routes/products.routes.js";
+import { CartModel } from "../dao/models/cart.model.js";
 
 const cartManager = new CartManager();
 export const cartsRouter = Router();
@@ -63,7 +64,6 @@ cartsRouter.post("/carts/:cid/products/:pid", async (req, res) => {
 
     const product = await productManager.getProductById(pid);
     const cart = await cartManager.getCartById(cid);
-
     if (typeof product !== "object") {
         return res.status(404).json({ message: "Product not found" });
     } else if (typeof cart !== "object") {
@@ -91,6 +91,31 @@ cartsRouter.post("/carts/:cid/products/:pid", async (req, res) => {
         cart.products.push({ _id: product._id, quantity: quantityVefiqued });
         cart.save();
         res.status(200).json({ cart_saved: cart.products });
+    } catch (error) {
+        console.error("error en el cath", error);
+    }
+});
+
+cartsRouter.delete("/carts/:cid/products/:pid", async (req, res) => {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+
+    const product = await productManager.getProductById(pid);
+    const cart = await cartManager.getCartById(cid);
+    if (typeof product !== "object") {
+        return res.status(404).json({ message: "Product not found" });
+    } else if (typeof cart !== "object") {
+        return res.status(404).json({ message: "Cart not found" });
+    }
+
+    try {
+        const cartWithoutProduct = await cartManager.deleteProductInCart(
+            cid,
+            pid,
+        );
+        if (cartWithoutProduct) {
+            return res.status(200).json(cartWithoutProduct);
+        }
     } catch (error) {
         console.error("error en el cath", error);
     }
