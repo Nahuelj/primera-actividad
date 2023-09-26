@@ -1,16 +1,53 @@
+import { productManager } from "../../routes/products.routes.js";
 import { ProductModel } from "../models/product.model.js";
 
 export class ProductManager {
-    async getProducts(query = {}, limit = 10, sort = {}) {
+    async getProducts(query, pageArg, limitArg, sortArg) {
         try {
-            const products = await ProductModel.find(query)
-                .limit(limit)
-                .sort(sort)
-                .lean();
-            if (products.length === 0) {
+            const options = {
+                page: pageArg, // Página que deseas recuperar
+                limit: limitArg, // Cantidad de documentos por página
+                sort: sortArg, // ordenamiento
+                lean: true,
+            };
+
+            const filters = query;
+
+            const products = await ProductModel.paginate(filters, options);
+
+            const {
+                docs,
+                totalDocs,
+                limit,
+                totalPages,
+                page,
+                pagingCounter,
+                hasPrevPage,
+                hasNextPage,
+                prevPage,
+                nextPage,
+            } = products;
+
+            const dataPaginate = {
+                status: "success",
+                payload: docs,
+                totalDocs,
+                limit,
+                totalPages,
+                page,
+                pagingCounter,
+                hasPrevPage,
+                hasNextPage,
+                prevPage,
+                nextPage,
+                nextLink: hasNextPage ? "link siguiente" : null,
+                prevLink: hasPrevPage ? "link anterior" : null,
+            };
+
+            if (dataPaginate.payload.length === 0) {
                 return "No products found";
             } else {
-                return products;
+                return dataPaginate;
             }
         } catch (error) {
             console.error("Error al obtener productos:", error);

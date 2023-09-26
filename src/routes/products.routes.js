@@ -16,8 +16,8 @@ productsRouter.get("/products", async (req, res) => {
     const query = req.body.query ? req.body.query : {};
     const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
 
-    const products = await productManager.getProducts(query, limit, sort);
-    res.json(products);
+    const product = await productManager.getProducts(query, page, limit, sort);
+    res.json(product);
 });
 
 productsRouter.get("/products/:pid", async (req, res) => {
