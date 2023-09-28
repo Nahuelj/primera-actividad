@@ -87,29 +87,55 @@ export class CartManager {
         }
     }
 
-    async updateProductInCart(cartId, productId, propertiesUpdated) {
+    // async updateProductInCart(cartId, productId, propertiesUpdated) {
+    //     try {
+    //         const cart = await CartModel.findById(cartId);
+
+    //         if (!cart) {
+    //             return `Cart with id:${cartId} not found`;
+    //         }
+
+    //         const product = cart.products.find((p) => p._id === productId);
+
+    //         if (!product) {
+    //             return `Product with id:${productId} not found in cart with id:${cartId}`;
+    //         }
+
+    //         if (propertiesUpdated.quantity !== undefined) {
+    //             product.quantity = propertiesUpdated.quantity;
+    //         }
+
+    //         await cart.save();
+
+    //         return product;
+    //     } catch (error) {
+    //         return "Error updating product in cart";
+    //     }
+    // }
+
+    async updateProductsInCart(cid, productsUpdated) {
         try {
-            const cart = await CartModel.findById(cartId);
-
-            if (!cart) {
-                return `Cart with id:${cartId} not found`;
-            }
-
-            const product = cart.products.find((p) => p._id === productId);
-
-            if (!product) {
-                return `Product with id:${productId} not found in cart with id:${cartId}`;
-            }
-
-            if (propertiesUpdated.quantity !== undefined) {
-                product.quantity = propertiesUpdated.quantity;
-            }
-
-            await cart.save();
-
-            return product;
+            const cart = await CartModel.findOneAndUpdate(
+                { _id: cid },
+                { $set: productsUpdated },
+                { new: true },
+            );
+            return cart;
         } catch (error) {
-            return "Error updating product in cart";
+            console.error("algo salio mal ", error);
+        }
+    }
+
+    async updatedQuantityProduct(cid, pid, quantity) {
+        try {
+            const cart = await CartModel.findOneAndUpdate(
+                { _id: cid, "products._id": pid },
+                { $set: { "products.$.quantity": quantity } },
+                { new: true },
+            );
+            return cart;
+        } catch (error) {
+            console.error("Something went wrong", error);
         }
     }
 
@@ -118,6 +144,22 @@ export class CartManager {
             const cart = await CartModel.findOneAndUpdate(
                 { _id: cartId },
                 { $pull: { products: { _id: productId } } },
+                { new: true },
+            );
+
+            if (cart) {
+                return cart;
+            }
+        } catch (error) {
+            console.error("Something went wrong:", error);
+        }
+    }
+
+    async deleteProductsInCart(cartId) {
+        try {
+            const cart = await CartModel.findOneAndUpdate(
+                { _id: cartId },
+                { $set: { products: [] } },
                 { new: true },
             );
 

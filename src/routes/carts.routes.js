@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { CartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import { productManager } from "../routes/products.routes.js";
-import { CartModel } from "../dao/models/cart.model.js";
 
 const cartManager = new CartManager();
 export const cartsRouter = Router();
@@ -100,7 +99,6 @@ cartsRouter.delete("/carts/:cid/products/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
 
-    const product = await productManager.getProductById(pid);
     const cart = await cartManager.getCartById(cid);
     if (typeof product !== "object") {
         return res.status(404).json({ message: "Product not found" });
@@ -121,6 +119,56 @@ cartsRouter.delete("/carts/:cid/products/:pid", async (req, res) => {
     }
 });
 
+cartsRouter.put("/carts/:cid", async (req, res) => {
+    const cid = req.params.cid;
+    console.log(cid);
+    const productsUpdate = req.body;
+    console.log(productsUpdate);
+
+    try {
+        const cartUpdated = await cartManager.updateProductsInCart(
+            cid,
+            productsUpdate,
+        );
+        if (cartUpdated) {
+            return res.status(200).json(cartUpdated);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+cartsRouter.put("/carts/:cid/products/:pid", async (req, res) => {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const { quantity } = req.body;
+
+    try {
+        const cartUpdated = await cartManager.updatedQuantityProduct(
+            cid,
+            pid,
+            quantity,
+        );
+        if (cartUpdated) {
+            return res.status(200).json(cartUpdated);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+cartsRouter.delete("/carts/:cid", async (req, res) => {
+    const cid = req.params.cid;
+
+    try {
+        const cartUpdated = await cartManager.deleteProductsInCart(cid);
+        if (cartUpdated) {
+            return res.status(200).json(cartUpdated);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
 // ESTA ERA MI RUTA A LA HORA DE TRABAJAR CON FILESYSTEM
 // cartsRouter.post("/carts/:cid/product/:pid", async (req, res) => {
 //     try {
