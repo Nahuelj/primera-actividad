@@ -1,4 +1,3 @@
-import { productManager } from "../../routes/products.routes.js";
 import { ProductModel } from "../models/product.model.js";
 
 export class ProductManager {

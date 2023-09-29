@@ -8,6 +8,7 @@ export const cartsRouter = Router();
 cartsRouter.post("/carts", async (req, res) => {
     try {
         const newCart = req.body;
+        console.log(newCart);
         if (!newCart) {
             return res.status(400).json({ message: "Nedd provide products" });
         }
