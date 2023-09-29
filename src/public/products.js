@@ -103,6 +103,7 @@ async function fetchToCart(element) {
                 return response.json();
             })
             .then((data) => {
+                alert("producto agregado al carrito" + " " + cartId);
                 console.log(data);
             })
             .catch((error) => {
@@ -137,6 +138,7 @@ async function fetchToCart(element) {
                 const regex = /id: (\w+)/;
                 const idCart = response.match(regex);
                 cartId = idCart[1];
+                alert("producto agregado al carrito" + " " + cartId);
             })
             .catch((error) => {
                 console.error(error);

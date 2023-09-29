@@ -2,7 +2,7 @@ import { Router } from "express";
 import { CartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import { productManager } from "../routes/products.routes.js";
 
-const cartManager = new CartManager();
+export const cartManager = new CartManager();
 export const cartsRouter = Router();
 
 cartsRouter.post("/carts", async (req, res) => {
@@ -41,6 +41,7 @@ cartsRouter.get("/carts/:cid", async (req, res) => {
             return res.status(404).json({ message: cart });
         }
         const productsCart = cart.products;
+        res.set("Content-Type", "application/json");
         return res.status(200).json(productsCart);
     } catch (error) {
         console.log(error);
