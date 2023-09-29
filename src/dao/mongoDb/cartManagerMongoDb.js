@@ -55,7 +55,6 @@ export class CartManager {
             return cart;
         } catch (error) {
             if (error.name === "CastError") {
-                console.error("Invalid cart ID");
                 return "Invalid cart ID";
             } else {
                 console.error(error);
