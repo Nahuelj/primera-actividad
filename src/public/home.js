@@ -1,7 +1,7 @@
 const container = document.querySelector("#container");
 
 async function getProducts() {
-    const url = `http://localhost:8080/api/products`;
+    const url = `http://localhost:8080/api/products?limit=100`;
     const requestOptions = {
         method: "GET",
     };
