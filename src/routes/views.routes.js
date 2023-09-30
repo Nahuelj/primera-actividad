@@ -1,17 +1,13 @@
 import { Router } from "express";
-import { productManager } from "./products.routes.js";
-import { cartManager } from "../routes/carts.routes.js";
 
 export const viewsRouter = Router();
 
 viewsRouter.get("/", async (req, res) => {
-    const products = await productManager.getProducts();
-    res.render("home", { products });
+    res.render("home");
 });
 
 viewsRouter.get("/realtimeproducts", async (req, res) => {
-    const products = await productManager.getProducts();
-    res.render("realTimeProducts", { products });
+    res.render("realTimeProducts");
 });
 
 viewsRouter.get("/chat", async (req, res) => {

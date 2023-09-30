@@ -13,7 +13,6 @@ export class ProductManager {
             const filters = query;
 
             const products = await ProductModel.paginate(filters, options);
-
             const {
                 docs,
                 totalDocs,
@@ -29,7 +28,7 @@ export class ProductManager {
 
             const dataPaginate = {
                 status: "success",
-                payload: docs,
+                payload: await docs,
                 totalDocs,
                 limit,
                 totalPages,
@@ -42,7 +41,6 @@ export class ProductManager {
                 nextLink: hasNextPage ? "link siguiente" : null,
                 prevLink: hasPrevPage ? "link anterior" : null,
             };
-
             if (dataPaginate.payload.length === 0) {
                 return "No products found";
             } else {

@@ -171,6 +171,7 @@ cartsRouter.delete("/carts/:cid", async (req, res) => {
         console.error(error);
     }
 });
+
 // ESTA ERA MI RUTA A LA HORA DE TRABAJAR CON FILESYSTEM
 // cartsRouter.post("/carts/:cid/product/:pid", async (req, res) => {
 //     try {

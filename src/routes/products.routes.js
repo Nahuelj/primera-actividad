@@ -34,10 +34,16 @@ productsRouter.post("/products", async (req, res) => {
     try {
         const product = req.body;
         const response = await productManager.addProduct(product);
-        res.status(200).json({ product: response });
         // Socket io /realTimeProducts
-        const productsUpdated = await productManager.getProducts();
+        const productsUpdated = await productManager.getProducts(
+            {},
+            1,
+            100,
+            {},
+        );
+        console.log(productsUpdated);
         io.emit("update", productsUpdated);
+        res.status(200).json({ product: response });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something went wrong" });
@@ -74,7 +80,12 @@ productsRouter.delete("/products/:pid", async (req, res) => {
         const response = await productManager.deleteProduct(pid);
         res.status(200).json({ message: "product removed", product: response });
         //Socket io /realTimeProducts
-        const productsUpdated = await productManager.getProducts();
+        const productsUpdated = await productManager.getProducts(
+            {},
+            1,
+            100,
+            {},
+        );
         io.emit("update", productsUpdated);
     } catch (error) {
         console.log(error);
