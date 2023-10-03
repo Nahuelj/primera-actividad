@@ -4,6 +4,20 @@ const following = document.querySelector("#following");
 const page = document.querySelector("#page");
 let cart = document.querySelectorAll(".item");
 
+// Obtener los parámetros de consulta de la URL actual
+let params = new URLSearchParams(window.location.search);
+console.log(params);
+
+// Acceder a los parámetros
+let nombre = params.get("name");
+console.log(nombre);
+
+if (nombre === "Admin") {
+    alert(`¡¡Hola Admin, bienvenido!!`);
+} else {
+    alert(`¡¡Hola user: ${nombre}, bienvenido!!`);
+}
+
 let pag = 1;
 let product = "";
 let _id = "";

@@ -16,13 +16,17 @@ const auth1 = (req, res, next) => {
 
 const auth2 = (req, res, next) => {
     if (req.session.user) {
-        res.redirect("/profile");
+        res.redirect("/products");
     } else {
         next();
     }
 };
 
 viewsRouter.get("/", async (req, res) => {
+    res.redirect("login");
+});
+
+viewsRouter.get("/home", (req, res) => {
     res.render("home");
 });
 
@@ -34,7 +38,7 @@ viewsRouter.get("/chat", async (req, res) => {
     res.render("chat");
 });
 
-viewsRouter.get("/products", async (req, res) => {
+viewsRouter.get("/products", auth1, async (req, res) => {
     res.render("products");
 });
 
@@ -61,6 +65,10 @@ viewsRouter.get("/profile", auth1, (req, res) => {
 viewsRouter.post("/session/singin", async (req, res) => {
     const { email, password, name } = req.body;
 
+    if (email === "adminCoder@coder.com") {
+        return res.send("no se puede establecer un user con este correo");
+    }
+
     try {
         if (!email || !password || !name) {
             return res.send("missing data");
@@ -82,9 +90,9 @@ viewsRouter.post("/session/singin", async (req, res) => {
                 name: user.name,
                 email: user.email,
             };
-            res.redirect("/profile");
+            res.redirect(`/products?name=${user.name}`);
         } else {
-            res.send("else");
+            res.send("error");
         }
     } catch (error) {
         console.error(error);
@@ -93,6 +101,14 @@ viewsRouter.post("/session/singin", async (req, res) => {
 
 viewsRouter.post("/session/login", async (req, res) => {
     const { email, password } = req.body;
+
+    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+        req.session.user = {
+            name: "admin",
+            email: "adminCoder@coder.com",
+        };
+        return res.redirect(`/products?name=Admin`);
+    }
     try {
         if (!email || !password) {
             return res.send("missing data");
@@ -111,7 +127,7 @@ viewsRouter.post("/session/login", async (req, res) => {
                     name: findUser.name,
                     email: findUser.email,
                 };
-                res.redirect("/profile");
+                res.redirect(`/products?name=${findUser.name}`);
             } else {
                 // Contraseña incorrecta
                 res.send("incorrect password");
