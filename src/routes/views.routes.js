@@ -1,8 +1,26 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import { UserModel } from "../dao/models/user.model.js";
+import session from "express-session";
 
 export const viewsRouter = Router();
+
+// AUTH
+const auth1 = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect("/login");
+    }
+};
+
+const auth2 = (req, res, next) => {
+    if (req.session.user) {
+        res.redirect("/profile");
+    } else {
+        next();
+    }
+};
 
 viewsRouter.get("/", async (req, res) => {
     res.render("home");
@@ -26,30 +44,85 @@ viewsRouter.get("/carts/:id", (req, res) => {
     res.render("carts", { cartId });
 });
 
-viewsRouter.get("/register", (req, res) => {
+viewsRouter.get("/register", auth2, (req, res) => {
     res.render("register");
 });
 
-viewsRouter.post("/singin", async (req, res) => {
-    const { email, password } = req.query;
+viewsRouter.get("/login", auth2, (req, res) => {
+    res.render("login");
+});
 
-    if (!email || !password) {
-        return console.log("missing data");
+viewsRouter.get("/profile", auth1, (req, res) => {
+    res.render("profile");
+});
+
+// DESPUES PASAR A RUTAS SESSION
+
+viewsRouter.post("/session/singin", async (req, res) => {
+    const { email, password, name } = req.body;
+
+    try {
+        if (!email || !password || !name) {
+            return res.send("missing data");
+        }
+
+        let salt = bcrypt.genSaltSync(10);
+        const hashed_password = await bcrypt.hash(password, salt);
+
+        const findUser = await UserModel.find({ email: email });
+
+        if (findUser.length === 0) {
+            const user = await UserModel.create({
+                name,
+                email,
+                password: hashed_password,
+            });
+
+            req.session.user = {
+                name: user.name,
+                email: user.email,
+            };
+            res.redirect("/profile");
+        } else {
+            res.send("else");
+        }
+    } catch (error) {
+        console.error(error);
     }
+});
 
-    let salt = bcrypt.genSaltSync(10);
-    const hashed_password = bcrypt.hash(password, salt);
+viewsRouter.post("/session/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if (!email || !password) {
+            return res.send("missing data");
+        }
 
-    const findUser = await UserModel.find({ email: email });
+        const findUser = await UserModel.findOne({ email: email });
 
-    if (findUser.length === 0) {
-        const user = await UserModel.create({
-            email,
-            password: hashed_password,
-        });
+        if (!findUser) {
+            res.send("user not found");
+        } else {
+            const compare = await bcrypt.compare(password, findUser.password);
 
-        return res.status(200).send("user created");
-    } else {
-        return res.send("user found");
+            if (compare) {
+                // Contraseña correcta
+                req.session.user = {
+                    name: findUser.name,
+                    email: findUser.email,
+                };
+                res.redirect("/profile");
+            } else {
+                // Contraseña incorrecta
+                res.send("incorrect password");
+            }
+        }
+    } catch (error) {
+        console.error(error);
     }
+});
+
+viewsRouter.get("/logout", (req, res) => {
+    req.session.destroy((e) => console.log(e));
+    res.redirect("/login");
 });

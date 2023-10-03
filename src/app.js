@@ -7,16 +7,30 @@ import { viewsRouter } from "./routes/views.routes.js";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 import { MessageModel } from "./dao/models/message.model.js";
+import ConnectMongo from "connect-mongo";
+import session from "express-session";
 
 // Express
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.disable("x-powered-by");
+app.use(
+    session({
+        secret: "secretpassword",
+        resave: true,
+        saveUninitialized: true,
+        store: ConnectMongo.create({
+            mongoUrl:
+                "mongodb+srv://nahueljosebenitez7:123Coder@cluster0.93y9tit.mongodb.net/ecommerce",
+            ttl: 3600,
+        }),
+    }),
+);
+app.use(viewsRouter);
 // Routers
 app.use("/api", productsRouter);
 app.use("/api", cartsRouter);
-app.use(viewsRouter);
 //Handlebars
 app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");
@@ -26,6 +40,7 @@ app.use(express.static(__dirname + "/public"));
 app.use((req, res) => {
     res.status(404).send("Page not found");
 });
+
 // Listen
 const PORT = 8080;
 const httpServer = app.listen(
