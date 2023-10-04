@@ -86,11 +86,7 @@ viewsRouter.post("/session/singin", async (req, res) => {
                 password: hashed_password,
             });
 
-            req.session.user = {
-                name: user.name,
-                email: user.email,
-            };
-            res.redirect(`/products?name=${user.name}`);
+            res.redirect(`/login`);
         } else {
             res.send("error");
         }
