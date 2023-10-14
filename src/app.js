@@ -9,17 +9,21 @@ import mongoose from "mongoose";
 import { MessageModel } from "./dao/models/message.model.js";
 import ConnectMongo from "connect-mongo";
 import session from "express-session";
+import { sessionsRouter } from "./routes/sessions.routes.js";
+import { initializePassport } from "../src/config/passport.config.js";
+import passport from "passport";
 
 // Express
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.disable("x-powered-by");
+//SESSIONS
 app.use(
     session({
         secret: "secretpassword",
-        resave: true,
-        saveUninitialized: true,
+        resave: false,
+        saveUninitialized: false,
         store: ConnectMongo.create({
             mongoUrl:
                 "mongodb+srv://nahueljosebenitez7:123Coder@cluster0.93y9tit.mongodb.net/ecommerce",
@@ -27,8 +31,13 @@ app.use(
         }),
     }),
 );
-app.use(viewsRouter);
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Routers
+app.use(viewsRouter);
+app.use(sessionsRouter);
 app.use("/api", productsRouter);
 app.use("/api", cartsRouter);
 //Handlebars
