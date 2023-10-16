@@ -36,7 +36,7 @@ viewsRouter.get("/chat", async (req, res) => {
 });
 
 viewsRouter.get("/products", auth1, async (req, res) => {
-    res.render("products");
+    res.render(`products`);
 });
 
 viewsRouter.get("/carts/:id", (req, res) => {
@@ -56,82 +56,3 @@ viewsRouter.get("/login", auth2, (req, res) => {
 viewsRouter.get("/profile", auth1, (req, res) => {
     res.render("profile");
 });
-
-// DESPUES PASAR A RUTAS SESSION
-
-// viewsRouter.post("/session/singin", async (req, res) => {
-//     const { email, password, name } = req.body;
-
-//     if (email === "adminCoder@coder.com") {
-//         return res.send("no se puede establecer un user con este correo");
-//     }
-
-//     try {
-//         if (!email || !password || !name) {
-//             return res.send("missing data");
-//         }
-
-//         let salt = bcrypt.genSaltSync(10);
-//         const hashed_password = await bcrypt.hash(password, salt);
-
-//         const findUser = await UserModel.find({ email: email });
-
-//         if (findUser.length === 0) {
-//             const user = await UserModel.create({
-//                 name,
-//                 email,
-//                 password: hashed_password,
-//             });
-
-//             res.redirect(`/login`);
-//         } else {
-//             res.send("error");
-//         }
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
-
-// viewsRouter.post("/session/login", async (req, res) => {
-//     const { email, password } = req.body;
-
-//     if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-//         req.session.user = {
-//             name: "admin",
-//             email: "adminCoder@coder.com",
-//         };
-//         return res.redirect(`/products?name=Admin`);
-//     }
-//     try {
-//         if (!email || !password) {
-//             return res.send("missing data");
-//         }
-
-//         const findUser = await UserModel.findOne({ email: email });
-
-//         if (!findUser) {
-//             res.send("user not found");
-//         } else {
-//             const compare = await bcrypt.compare(password, findUser.password);
-
-//             if (compare) {
-//                 Contraseña correcta
-//                 req.session.user = {
-//                     name: findUser.name,
-//                     email: findUser.email,
-//                 };
-//                 res.redirect(`/products?name=${findUser.name}`);
-//             } else {
-//                 Contraseña incorrecta
-//                 res.send("incorrect password");
-//             }
-//         }
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
-
-// viewsRouter.get("/logout", (req, res) => {
-//     req.session.destroy((e) => console.log(e));
-//     res.redirect("/login");
-// });

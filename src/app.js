@@ -1,11 +1,10 @@
 import express from "express";
-import handlebars, { engine } from "express-handlebars";
+import handlebars from "express-handlebars";
 import { __dirname } from "./utils.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { Server } from "socket.io";
-import mongoose from "mongoose";
 import { MessageModel } from "./dao/models/message.model.js";
 import ConnectMongo from "connect-mongo";
 import session from "express-session";
@@ -13,6 +12,7 @@ import { sessionsRouter } from "./routes/sessions.routes.js";
 import { initializePassport } from "../src/config/passport.config.js";
 import passport from "passport";
 import "./config/passport.github.js";
+import { connectToDatabase } from "./dao/connectDB.js";
 
 // Express
 const app = express();
@@ -81,20 +81,5 @@ io.on("connection", async (socket) => {
 });
 
 //MongoDb connection
-
-async function connectToDatabase() {
-    try {
-        await mongoose.connect(
-            "mongodb+srv://nahueljosebenitez7:123Coder@cluster0.93y9tit.mongodb.net/ecommerce",
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            },
-        );
-        console.log("Successful connection to MongoDB");
-    } catch (error) {
-        console.error("MongoDB connection error:", error);
-    }
-}
 
 connectToDatabase();
