@@ -1,6 +1,4 @@
 import { Router } from "express";
-import bcrypt from "bcrypt";
-import { UserModel } from "../dao/models/user.model.js";
 import passport from "passport";
 
 export const sessionsRouter = Router();
@@ -9,53 +7,49 @@ sessionsRouter.post(
     "/session/register",
     passport.authenticate("register", {
         failureRedirect: "/failregister",
-        successRedirect: "/succesRedirect",
+        successRedirect: "/login",
     }),
     async (req, res) => {
         res.send({ status: "succes", message: "user registered" });
     },
 );
 
-sessionsRouter.post("/session/login", async (req, res) => {
-    const { email, password } = req.body;
-
-    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-        req.session.user = {
-            name: "admin",
-            email: "adminCoder@coder.com",
-        };
-        return res.redirect(`/products?name=Admin`);
-    }
-    try {
-        if (!email || !password) {
-            return res.send("missing data");
-        }
-
-        const findUser = await UserModel.findOne({ email: email });
-
-        if (!findUser) {
-            res.send("user not found");
-        } else {
-            const compare = await bcrypt.compare(password, findUser.password);
-
-            if (compare) {
-                // Contraseña correcta
-                req.session.user = {
-                    name: findUser.name,
-                    email: findUser.email,
-                };
-                res.redirect(`/products?name=${findUser.name}`);
-            } else {
-                // Contraseña incorrecta
-                res.send("incorrect password");
-            }
-        }
-    } catch (error) {
-        console.error(error);
-    }
+sessionsRouter.get("/failregister", (req, res) => {
+    res.send("something went wrong");
 });
 
-sessionsRouter.get("/logout", (req, res) => {
+sessionsRouter.post(
+    "/session/login",
+    passport.authenticate("login", {
+        failureRedirect: "/failregister",
+    }),
+    async (req, res) => {
+        console.log("req,user", req.user);
+        const { name } = req.user;
+        req.session.user = req.user;
+        res.redirect(`/products?name=${name}`);
+    },
+);
+
+sessionsRouter.get("/session/logout", (req, res) => {
     req.session.destroy((e) => console.log(e));
     res.redirect("/login");
 });
+
+sessionsRouter.get(
+    "/session/github",
+    passport.authenticate("github", {}),
+    (req, res) => {},
+);
+
+sessionsRouter.get(
+    "/session/github/callback",
+    passport.authenticate("github", {
+        failureRedirect: "/failregister",
+    }),
+    (req, res) => {
+        const { name } = req.user;
+        req.session.user = req.user;
+        res.redirect(`/products?name=${name}`);
+    },
+);

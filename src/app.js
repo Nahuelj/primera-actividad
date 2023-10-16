@@ -12,6 +12,7 @@ import session from "express-session";
 import { sessionsRouter } from "./routes/sessions.routes.js";
 import { initializePassport } from "../src/config/passport.config.js";
 import passport from "passport";
+import "./config/passport.github.js";
 
 // Express
 const app = express();

@@ -12,40 +12,62 @@ export const initializePassport = () => {
             { passReqToCallback: true, usernameField: "email" },
             async (req, email, password, done) => {
                 const { name } = req.body;
-                console.log("iniciando");
-                if (email === "adminCoder@coder.com") {
-                    return done(null, false);
-                }
 
                 try {
                     if (!email || !password || !name) {
-                        console.log("falta");
                         return done(null, false);
                     }
 
                     let salt = bcrypt.genSaltSync(10);
                     const hashed_password = await bcrypt.hash(password, salt);
 
-                    const findUser = await UserModel.find({
+                    const findUser = await UserModel.findOne({
                         email: email,
                     });
 
-                    if (findUser.length === 0) {
-                        console.log("no existe");
+                    if (!findUser) {
                         const user = await UserModel.create({
                             name,
                             email,
                             password: hashed_password,
                         });
-                        console.log("creado");
 
                         return done(null, user);
-                    } else {
-                        console.log("existe");
+                    }
+
+                    return done(null, false);
+                } catch (error) {
+                    return done(error);
+                }
+            },
+        ),
+    );
+
+    passport.use(
+        "login",
+        new LocalStrategy(
+            { passReqToCallback: true, usernameField: "email" },
+            async (req, email, password, done) => {
+                try {
+                    const findUser = await UserModel.findOne({ email: email });
+
+                    if (!findUser) {
                         return done(null, false);
+                    } else {
+                        const compare = await bcrypt.compare(
+                            password,
+                            findUser.password,
+                        );
+
+                        if (compare) {
+                            return done(null, findUser);
+                        } else {
+                            // Contraseña incorrecta
+                            return done("incorrect password");
+                        }
                     }
                 } catch (error) {
-                    console.error(error);
+                    return done(error);
                 }
             },
         ),
