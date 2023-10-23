@@ -55,7 +55,5 @@ sessionsRouter.get(
 );
 
 sessionsRouter.get("/api/session/current", (req, res) => {
-    console.log(req.session);
-    console.log(req.session.user);
-    res.send(req.session.user);
+    res.send(req.user);
 });
