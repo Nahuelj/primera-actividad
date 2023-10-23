@@ -1,6 +1,7 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import { UserModel } from "../dao/models/user.model.js";
+import { CartModel } from "../dao/models/cart.model.js";
 import bcrypt from "bcrypt";
 
 const LocalStrategy = passportLocal.Strategy;
@@ -11,10 +12,10 @@ export const initializePassport = () => {
         new LocalStrategy(
             { passReqToCallback: true, usernameField: "email" },
             async (req, email, password, done) => {
-                const { name } = req.body;
-
+                const { first_name, last_name, age } = req.body;
+                console.log(first_name, last_name, age);
                 try {
-                    if (!email || !password || !name) {
+                    if (!email || !password || !first_name) {
                         return done(null, false);
                     }
 
@@ -26,8 +27,14 @@ export const initializePassport = () => {
                     });
 
                     if (!findUser) {
+                        const cart = new CartModel();
+
                         const user = await UserModel.create({
-                            name,
+                            first_name,
+                            last_name,
+                            age,
+                            role: "user",
+                            cartId: cart._id,
                             email,
                             password: hashed_password,
                         });

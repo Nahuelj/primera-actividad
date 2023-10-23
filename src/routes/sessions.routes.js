@@ -24,10 +24,10 @@ sessionsRouter.post(
         failureRedirect: "/failregister",
     }),
     async (req, res) => {
-        console.log("req,user", req.user);
-        const { name } = req.user;
+        console.log("req user", req.user);
+        const { first_name } = req.user;
         req.session.user = req.user;
-        res.redirect(`/products?name=${name}`);
+        res.redirect(`/products?name=${first_name}`);
     },
 );
 
@@ -53,3 +53,9 @@ sessionsRouter.get(
         res.redirect(`/products?name=${name}`);
     },
 );
+
+sessionsRouter.get("/api/session/current", (req, res) => {
+    console.log(req.session);
+    console.log(req.session.user);
+    res.send(req.session.user);
+});
