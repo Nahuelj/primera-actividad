@@ -13,7 +13,6 @@ export const initializePassport = () => {
             { passReqToCallback: true, usernameField: "email" },
             async (req, email, password, done) => {
                 const { first_name, last_name, age } = req.body;
-                console.log(first_name, last_name, age);
                 try {
                     if (!email || !password || !first_name) {
                         return done(null, false);
@@ -81,7 +80,6 @@ export const initializePassport = () => {
     );
 
     passport.serializeUser((user, done) => {
-        console.log(user._id);
         done(null, user._id);
     });
 
