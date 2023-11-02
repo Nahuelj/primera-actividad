@@ -170,3 +170,5 @@ export class CartManager {
         }
     }
 }
+
+export const cartManager = new CartManager();

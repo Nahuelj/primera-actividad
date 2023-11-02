@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "./.env" });
 
 export async function connectToDatabase() {
     try {
-        await mongoose.connect(
-            "mongodb+srv://nahueljosebenitez7:123Coder@cluster0.93y9tit.mongodb.net/ecommerce",
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            },
-        );
+        await mongoose.connect(process.env.MONGO_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
         console.log("Successful connection to MongoDB");
     } catch (error) {
         console.error("MongoDB connection error:", error);

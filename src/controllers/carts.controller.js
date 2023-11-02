@@ -1,7 +1,5 @@
-import { CartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
-import { productManager } from "../routes/products.routes.js";
-
-export const cartManager = new CartManager();
+import { cartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
+import { productManager } from "../dao/mongoDb/productManagerMongoDb.js";
 
 class Cart_Controller {
     async postCart() {

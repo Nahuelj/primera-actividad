@@ -1,14 +1,16 @@
 import passport from "passport";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { UserModel } from "../dao/models/user.model.js";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
 passport.use(
     "github",
     new GitHubStrategy(
         {
-            clientID: "Iv1.3bae0be216cb0e9b",
-            clientSecret: "45f99e06c8781e77630b048612a513317070cca3",
-            callbackURL: "http://localhost:8080/session/github/callback",
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: process.env.CALLBACK_URL,
             scope: ["user:email"],
         },
         async function (accessToken, refreshToken, profile, done) {

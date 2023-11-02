@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import { sessionController } from "../controllers/session.controller.js";
 
 export const sessionsRouter = Router();
 
@@ -9,32 +10,20 @@ sessionsRouter.post(
         failureRedirect: "/failregister",
         successRedirect: "/login",
     }),
-    async (req, res) => {
-        res.send({ status: "succes", message: "user registered" });
-    },
+    sessionController.register,
 );
 
-sessionsRouter.get("/failregister", (req, res) => {
-    res.send("something went wrong");
-});
+sessionsRouter.get("/failregister", sessionController.failed);
 
 sessionsRouter.post(
     "/session/login",
     passport.authenticate("login", {
         failureRedirect: "/failregister",
     }),
-    async (req, res) => {
-        console.log("req user", req.user);
-        const { first_name } = req.user;
-        req.session.user = req.user;
-        res.redirect(`/products?name=${first_name}`);
-    },
+    sessionController.login,
 );
 
-sessionsRouter.get("/session/logout", (req, res) => {
-    req.session.destroy((e) => console.log(e));
-    res.redirect("/login");
-});
+sessionsRouter.get("/session/logout", sessionController.logout);
 
 sessionsRouter.get(
     "/session/github",
@@ -47,17 +36,7 @@ sessionsRouter.get(
     passport.authenticate("github", {
         failureRedirect: "/failregister",
     }),
-    (req, res) => {
-        const { name } = req.user;
-        req.session.user = req.user;
-        res.redirect(`/products?name=${name}`);
-    },
+    sessionController.session,
 );
 
-sessionsRouter.get("/api/session/current", (req, res) => {
-    if (req.user) {
-        res.send(req.user);
-    } else {
-        res.redirect("/login");
-    }
-});
+sessionsRouter.get("/api/session/current", sessionController.current);

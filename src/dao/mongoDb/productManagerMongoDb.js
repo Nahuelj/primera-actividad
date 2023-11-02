@@ -114,3 +114,5 @@ export class ProductManager {
         }
     }
 }
+
+export const productManager = new ProductManager();
