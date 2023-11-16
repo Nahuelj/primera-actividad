@@ -1,48 +1,38 @@
-export class Session_Controller {
-    async register() {
-        async (req, res) => {
-            res.send({ status: "succes", message: "user registered" });
-        };
+import { UserCurrent } from "../dto/dto.js";
+
+class Session_Controller {
+    register(req, res) {
+        res.send({ status: "success", message: "user registered" });
     }
 
-    async failed() {
-        (req, res) => {
-            res.send("something went wrong");
-        };
+    failed(req, res) {
+        res.send("something went wrong");
     }
 
-    async login() {
-        async (req, res) => {
-            console.log("req user", req.user);
-            const { first_name } = req.user;
-            req.session.user = req.user;
-            res.redirect(`/products?name=${first_name}`);
-        };
+    login(req, res) {
+        const { first_name } = req.user;
+        req.session.user = req.user;
+        res.redirect(`/products?name=${first_name}`);
     }
 
-    async logout() {
-        (req, res) => {
-            req.session.destroy((e) => console.log(e));
+    logout(req, res) {
+        req.session.destroy((e) => console.log(e));
+        res.redirect("/login");
+    }
+
+    session(req, res) {
+        const { name } = req.user;
+        req.session.user = req.user;
+        res.redirect(`/products?name=${name}`);
+    }
+
+    current(req, res) {
+        if (req.user) {
+            const currentUser = new UserCurrent(req.user);
+            res.json(currentUser);
+        } else {
             res.redirect("/login");
-        };
-    }
-
-    async session() {
-        (req, res) => {
-            const { name } = req.user;
-            req.session.user = req.user;
-            res.redirect(`/products?name=${name}`);
-        };
-    }
-
-    async current() {
-        (req, res) => {
-            if (req.user) {
-                res.send(req.user);
-            } else {
-                res.redirect("/login");
-            }
-        };
+        }
     }
 }
 

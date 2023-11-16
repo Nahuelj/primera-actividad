@@ -39,4 +39,4 @@ sessionsRouter.get(
     sessionController.session,
 );
 
-sessionsRouter.get("/api/session/current", sessionController.current);
+sessionsRouter.get("/session/current", sessionController.current);
