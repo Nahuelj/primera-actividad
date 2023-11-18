@@ -2,14 +2,11 @@ import { CartModel } from "../models/cart.model.js";
 
 export class CartManager {
     async addCarts(products) {
-        if (!products || products.length === 0) {
-            return "No products added";
-        }
         const cart = new CartModel({ products: products });
 
         try {
             await cart.save();
-            return `Cart created with id: ${cart._id}`;
+            return { cartId: cart._id };
         } catch (error) {
             return "Error creating cart";
         }

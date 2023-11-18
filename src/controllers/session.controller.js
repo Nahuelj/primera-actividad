@@ -27,6 +27,7 @@ class Session_Controller {
     }
 
     current(req, res) {
+        console.log(req.user);
         if (req.user) {
             const currentUser = new UserCurrent(req.user);
             res.json(currentUser);

@@ -4,24 +4,48 @@ const following = document.querySelector("#following");
 const page = document.querySelector("#page");
 let cart = document.querySelectorAll(".item");
 
-// Obtener los parámetros de consulta de la URL actual
-let params = new URLSearchParams(window.location.search);
-console.log(params);
+//current user
+let currentUser;
+let userName;
+let userRole;
+let cartId;
 
-// Acceder a los parámetros
-let nombre = params.get("name");
-console.log(nombre);
+async function getCurrentUser() {
+    const url = `http://localhost:8080/session/current`;
+    const requestOptions = {
+        method: "GET",
+    };
 
-if (nombre === "Admin") {
-    alert(`¡¡Hola Admin, bienvenido!!`);
-} else {
-    alert(`¡¡Hola user: ${nombre}, bienvenido!!`);
+    await fetch(url, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            const { first_name, role, cart } = data;
+
+            userName = first_name;
+            userRole = role;
+            cartId = cart;
+
+            if (userRole != "user") {
+                alert(`¡¡Hola Admin, bienvenido!!`);
+            } else {
+                alert(`¡¡Hola user: ${userName}, bienvenid@!!`);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
+getCurrentUser();
 
 let pag = 1;
 let product = "";
 let _id = "";
-let cartId = "";
 
 async function getProducts() {
     const url = `http://localhost:8080/api/products`;
@@ -99,65 +123,30 @@ async function fetchToCart(element) {
             console.error(error);
         });
 
-    if (cartId !== "") {
-        console.log(
-            "carrito encontrado se sumo el producto al carrito" + cartId,
-        );
-        const url1 = `http://localhost:8080/api/carts/${cartId}/products/${_id}`;
+    console.log("cartIDDD", cartId, "IDDDDPRODUCT", _id);
+    console.log(
+        "carrito encontrado se sumo el producto al carrito" + " " + cartId,
+    );
+    const url1 = `http://localhost:8080/api/carts/${cartId}/products/${_id}`;
 
-        const requestOptions1 = {
-            method: "POST",
-        };
+    const requestOptions1 = {
+        method: "POST",
+    };
 
-        fetch(url1, requestOptions1)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                alert("producto agregado al carrito" + " " + cartId);
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    } else {
-        console.log("carrito no encontrado se procede a crear uno");
-        const url1 = `http://localhost:8080/api/carts`;
-        const body = {
-            products: [
-                {
-                    _id: _id,
-                },
-            ],
-        };
-        const requestOptions1 = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body),
-        };
-        fetch(url1, requestOptions1)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                let response = data.message;
-                const regex = /id: (\w+)/;
-                const idCart = response.match(regex);
-                cartId = idCart[1];
-                alert("producto agregado al carrito" + " " + cartId);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
+    fetch(url1, requestOptions1)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            alert("producto agregado al carrito" + " " + cartId);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 following.addEventListener("click", async () => {

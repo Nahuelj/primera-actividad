@@ -2,6 +2,7 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import { UserModel } from "../dao/models/user.model.js";
 import { CartModel } from "../dao/models/cart.model.js";
+import { cartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import bcrypt from "bcrypt";
 
 const LocalStrategy = passportLocal.Strategy;
@@ -26,14 +27,14 @@ export const initializePassport = () => {
                     });
 
                     if (!findUser) {
-                        const cart = new CartModel();
+                        const cart = await cartManager.addCarts();
 
                         const user = await UserModel.create({
                             first_name,
                             last_name,
                             age,
                             role: "user",
-                            cartId: cart._id,
+                            cartId: cart.cartId,
                             email,
                             password: hashed_password,
                         });
