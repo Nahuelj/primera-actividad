@@ -46,6 +46,7 @@ app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
 app.use(express.static(__dirname + "/public"));
+
 // Route not found
 app.use((req, res) => {
     res.status(404).send("Page not found");

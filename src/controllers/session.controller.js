@@ -10,9 +10,11 @@ class Session_Controller {
     }
 
     login(req, res) {
-        const { first_name } = req.user;
         req.session.user = req.user;
-        res.redirect(`/products?name=${first_name}`);
+        if (req.user.role === "admin") {
+            res.redirect("/realtimeproducts");
+        }
+        res.redirect(`/products`);
     }
 
     logout(req, res) {

@@ -1,25 +1,17 @@
 export const adminAuth = (req, res, next) => {
-    if (req.user) {
-        const user = req.user;
-        if (user.role.role != "admin") {
-            res.redirec("/login");
-        } else {
-            next();
-        }
+    const user = req.user;
+    if (user.role === "admin") {
+        next();
     } else {
-        res.redirect("/login");
+        res.render("invalidCredentials", { role: "user" });
     }
 };
 
 export const userAuth = (req, res, next) => {
-    if (req.user) {
-        const user = req.user;
-        if (user.role.role != "user") {
-            res.redirec("/login");
-        } else {
-            next();
-        }
+    const user = req.user;
+    if (user.role == "user") {
+        next();
     } else {
-        res.redirect("/login");
+        res.render("invalidCredentials", { role: "admin" });
     }
 };

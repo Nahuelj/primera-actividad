@@ -40,3 +40,11 @@ sessionsRouter.get(
 );
 
 sessionsRouter.get("/session/current", sessionController.current);
+
+sessionsRouter.get("/redirect", (req, res) => {
+    if (req.user.role == "admin") {
+        res.redirect("/realtimeproducts");
+    } else {
+        res.redirect("/products");
+    }
+});

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { adminAuth, userAuth } from "../middlewares/rol.validator.js";
 
 export const viewsRouter = Router();
 
@@ -27,15 +28,15 @@ viewsRouter.get("/home", (req, res) => {
     res.render("home");
 });
 
-viewsRouter.get("/realtimeproducts", async (req, res) => {
+viewsRouter.get("/realtimeproducts", adminAuth, async (req, res) => {
     res.render("realTimeProducts");
 });
 
-viewsRouter.get("/chat", async (req, res) => {
+viewsRouter.get("/chat", userAuth, async (req, res) => {
     res.render("chat");
 });
 
-viewsRouter.get("/products", auth1, async (req, res) => {
+viewsRouter.get("/products", auth1, userAuth, async (req, res) => {
     res.render(`products`);
 });
 
