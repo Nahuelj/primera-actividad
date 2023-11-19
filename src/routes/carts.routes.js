@@ -26,3 +26,7 @@ cartsRouter.put(
 );
 
 cartsRouter.delete("/carts/:cid", cartController.deleteCart);
+
+cartsRouter.get("/carts/:cid/purchase", (req, res) => {
+    res.send("finalizando compra");
+});

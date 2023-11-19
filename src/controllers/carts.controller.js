@@ -175,6 +175,14 @@ class Cart_Controller {
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
+
+    async confirmPurchase(req, res) {
+        console.log("finalizando compra");
+        const { cid } = req.params;
+        // const response = await cartManager.getCartById(cid);
+        // console.log(response);
+        res.json("finalizando compra");
+    }
 }
 
 export const cartController = new Cart_Controller();
