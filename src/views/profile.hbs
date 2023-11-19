@@ -1,1 +1,52 @@
-<h1>profile</h1>
+<h1 id="h1">Bienvenid@ </h1>
+<a id="anchor" href="/cart" >Gestionar Carrito</a>
+<br>
+<br>
+<a href="/products">Agregar Productos</a>
+<br>
+<br>
+<a href="/session/logout">Cerrar sesión</a>
+
+
+
+<script>
+    let userName;
+    let userRole;
+    let cartId;
+
+
+async function getCurrentUser() {
+    const url = `http://localhost:8080/session/current`;
+    const requestOptions = {
+        method: "GET",
+    };
+
+    await fetch(url, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            const { first_name, role, cart } = data;
+
+            userName = first_name;
+            userRole = role;
+            cartId = cart;
+
+            const h1 = document.getElementById("h1");
+            h1.innerText = `Bienvenid@ ${userName}`
+
+            const anchor = document.getElementById("anchor");
+            anchor.href = `/carts/${cartId}`
+         
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+getCurrentUser();
+
+</script>
