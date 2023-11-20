@@ -13,6 +13,7 @@ import { initializePassport } from "../src/config/passport.config.js";
 import passport from "passport";
 import "./config/passport.github.js";
 import { connectToDatabase } from "./dao/connectDB.js";
+import { mockingRouter } from "./routes/mocking.routes.js";
 
 // Express
 const app = express();
@@ -41,6 +42,7 @@ app.use(viewsRouter);
 app.use(sessionsRouter);
 app.use("/api", productsRouter);
 app.use("/api", cartsRouter);
+app.use("/api", mockingRouter);
 //Handlebars
 app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");
