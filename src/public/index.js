@@ -53,7 +53,7 @@ function addProduct() {
             description: "product added from realtimeProducts",
             price: priceInput.value,
             code: codeInput.value,
-            stock: 123,
+            stock: Math.floor(Math.random() * (20 - 5 + 1) + 5),
             status: true,
             category: "unknown",
         };

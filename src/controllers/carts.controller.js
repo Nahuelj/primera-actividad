@@ -1,5 +1,12 @@
 import { cartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import { productManager } from "../dao/mongoDb/productManagerMongoDb.js";
+import {
+    validateStock,
+    amount,
+    deletedPurchasedProducts,
+} from "../services/validateStock.service.js";
+import { ticketModel } from "../dao/models/ticket.model.js";
+import { v4 } from "uuid";
 
 class Cart_Controller {
     async postCart(req, res) {
@@ -177,11 +184,22 @@ class Cart_Controller {
     }
 
     async confirmPurchase(req, res) {
-        console.log("finalizando compra");
         const { cid } = req.params;
-        // const response = await cartManager.getCartById(cid);
-        // console.log(response);
-        res.json("finalizando compra");
+        const response = await cartManager.getCartById(cid);
+        const purchase = (await validateStock(response)).productsValidated;
+        const notPurchased = (await validateStock(response))
+            .productsNotValidated;
+        const amout = await amount(purchase);
+        const user = req.session.user.email;
+        const ticket = new ticketModel({
+            products: purchase,
+            code: v4(),
+            amount: amout,
+            purchaser: user,
+        });
+        await ticket.save();
+        deletedPurchasedProducts(cid, purchase);
+        res.json({ ticket, productsNotValidated: notPurchased });
     }
 }
 

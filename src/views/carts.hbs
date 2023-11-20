@@ -5,6 +5,7 @@
 </ul>
 
 <br>
+<button id="confirm">Confirmar compra</button>
 <br>
 <br>
 <a href="/profile">Profile</a>
@@ -25,6 +26,8 @@ const resultado = texto.match(patron);
 const cartId = resultado[1];
 const container = document.querySelector("#container");
 const totalCoutn = document.querySelector("#total");
+
+function getCart(){
 
 const url = `http://localhost:8080/api/carts/${cartId}`;
 const requestOptions = {
@@ -51,5 +54,73 @@ fetch(url, requestOptions)
         totalCoutn.innerText = `Total: ${total}`;
         container.innerHTML = content;
     });
+}
+
+getCart();
+
+let userName = "";
+let userRole = "";
+let cartIdd = "";
+
+async function getCurrentUser() {
+    const url = `http://localhost:8080/session/current`;
+    const requestOptions = {
+        method: "GET",
+    };
+
+    await fetch(url, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            const { first_name, role, cart } = data;
+
+            userName = first_name;
+            userRole = role;
+            cartIdd = cart;
+
+            if (userRole != "user") {
+                alert(`¡¡Hola Admin, bienvenido!!`);
+            } else {
+                alert(`¡¡Hola user: ${userName}, bienvenid@!!`);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+getCurrentUser();
+
+const confirm = document.getElementById("confirm");
+
+confirm.addEventListener("click", () => {
+    const url = `http://localhost:8080/api/carts/${cartIdd}/purchase`;
+    const requestOptions = {
+        method: "GET",
+    };
+
+    fetch(url, requestOptions)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            if(data.productsNotValidated.length == 0){
+                alert(`Se generó un ticket con el codigo ${data.ticket.code}, todos los productos fueron procesados`)
+                getCart()
+            }else{
+                alert(`Se generó un ticket con el codigo ${data.ticket.code} lamentablemente no hay stock de los productos que quedaron en el carrito`)
+                getCart()
+
+            }
+        });
+});
+
+
+    
 
 </script>
