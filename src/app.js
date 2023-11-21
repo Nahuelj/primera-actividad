@@ -14,6 +14,7 @@ import passport from "passport";
 import "./config/passport.github.js";
 import { connectToDatabase } from "./dao/connectDB.js";
 import { mockingRouter } from "./routes/mocking.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 // Express
 const app = express();
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routers
+
 app.use(viewsRouter);
 app.use(sessionsRouter);
 app.use("/api", productsRouter);
@@ -49,6 +51,7 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
 app.use(express.static(__dirname + "/public"));
 
+app.use(errorHandler);
 // Route not found
 app.use((req, res) => {
     res.status(404).send("Page not found");
