@@ -15,6 +15,7 @@ import "./config/passport.github.js";
 import { connectToDatabase } from "./dao/connectDB.js";
 import { mockingRouter } from "./routes/mocking.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { logger } from "./config/winstongLogger.config.js";
 
 // Express
 const app = express();
@@ -45,6 +46,10 @@ app.use(sessionsRouter);
 app.use("/api", productsRouter);
 app.use("/api", cartsRouter);
 app.use("/api", mockingRouter);
+app.use("/logger", (req, res) => {
+    logger.log("debug", "pruebaaa");
+    res.send("logger");
+});
 //Handlebars
 app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");
