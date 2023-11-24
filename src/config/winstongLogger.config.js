@@ -1,15 +1,37 @@
-import winston, { transports } from "winston";
+import winston from "winston";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
-export const logger = winston.createLogger({
-    level: "debug",
-    format: winston.format.simple(),
-    transports: [new winston.transports.Console()],
+const customFormat = winston.format.printf(({ level, message, timestamp }) => {
+    return `{"level":"${level}","timestamp":"${timestamp}","message":"${message}"},`;
 });
 
-if (true) {
-    logger.add(
+const logger = winston.createLogger({
+    level: "error",
+
+    transports: [
         new winston.transports.File({
-            filename: "logs.txt",
+            filename: "errorLogs.txt",
+            format: winston.format.combine(
+                winston.format.timestamp({
+                    format: "YYYY-MM-DD HH:mm:ss",
+                }),
+                customFormat,
+            ),
+        }),
+    ],
+});
+
+if (process.env.MODE === "-D") {
+    logger.add(
+        new winston.transports.Console({
+            level: "debug",
+            format: winston.format.simple(),
         }),
     );
 }
+
+export const middlewareLogger = (req, res, next) => {
+    req.logger = logger;
+    next();
+};
