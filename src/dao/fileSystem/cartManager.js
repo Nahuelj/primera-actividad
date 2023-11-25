@@ -9,6 +9,7 @@ export class CartManager {
     createFile() {
         try {
             fs.readFileSync(this.path, "utf8");
+
             console.log("Carts file found");
         } catch (error) {
             console.log("File not found, it will be created");

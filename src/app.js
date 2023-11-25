@@ -15,7 +15,7 @@ import "./config/passport.github.js";
 import { connectToDatabase } from "./dao/connectDB.js";
 import { mockingRouter } from "./routes/mocking.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { middlewareLogger } from "./config/winstongLogger.config.js";
+import { middlewareLogger, logger } from "./config/winstongLogger.config.js";
 
 // Express
 const app = express();
@@ -68,29 +68,29 @@ app.use((req, res) => {
 const PORT = 8080;
 const httpServer = app.listen(
     PORT,
-    console.log(`Servidor corriendo en http://localhost:${PORT}`),
+    logger.info(`Servidor corriendo en http://localhost:${PORT}`),
 );
 // Socket.io
 export const io = new Server(httpServer);
 
 io.on("connection", async (socket) => {
-    console.log(`se ha conectado un cliente con id: ${socket.id}`);
-    // como se conecta uno recibimos de allá el emmit "id"
-    socket.on("id", async (nombre) => {
-        // emitimos que se conecto alguien para que alla salga la toast
-        socket.broadcast.emit("newUser", nombre);
-        //objetenemos los mensajes para cargarlos alla
-        const messages = await MessageModel.find().lean();
-        // se los mandamos para que los reciban con el on
-        socket.emit("getMessagesStart", messages);
-        // cuando alguien envie un mensaje se emite messageSend y aca se procesa para guardar todo en base de datos
-        socket.on("messageSend", async (model) => {
-            await MessageModel.create(model);
+    logger.info(`se ha conectado un cliente con id: ${socket.id}`),
+        // como se conecta uno recibimos de allá el emmit "id"
+        socket.on("id", async (nombre) => {
+            // emitimos que se conecto alguien para que alla salga la toast
+            socket.broadcast.emit("newUser", nombre);
+            //objetenemos los mensajes para cargarlos alla
             const messages = await MessageModel.find().lean();
-            socket.emit("reloadMessages", messages);
-            socket.broadcast.emit("reloadMessagesForOthers", messages);
+            // se los mandamos para que los reciban con el on
+            socket.emit("getMessagesStart", messages);
+            // cuando alguien envie un mensaje se emite messageSend y aca se procesa para guardar todo en base de datos
+            socket.on("messageSend", async (model) => {
+                await MessageModel.create(model);
+                const messages = await MessageModel.find().lean();
+                socket.emit("reloadMessages", messages);
+                socket.broadcast.emit("reloadMessagesForOthers", messages);
+            });
         });
-    });
 });
 
 //MongoDb connection

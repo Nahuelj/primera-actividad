@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { UserModel } from "../dao/models/user.model.js";
+import { logger } from "../config/winstongLogger.config.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
@@ -15,10 +16,10 @@ passport.use(
         },
         async function (accessToken, refreshToken, profile, done) {
             let emailFound = await profile.emails[0].value;
-            console.log("emailjson", emailFound);
+            logger.info(`emailjson ${emailFound}`);
 
             const userFound = await UserModel.findOne({ email: emailFound });
-            console.log("userfound", userFound);
+            logger.info(`userfound ${userFound}`);
 
             if (!userFound) {
                 const user = await UserModel.create({
@@ -26,10 +27,12 @@ passport.use(
                     email: emailFound,
                     github: profile,
                 });
-                console.log("userCreate", user);
+                logger.info(`userCreate ${user}`);
+
                 return done(null, user);
             }
-            console.log("encontrado", userFound);
+            logger.info(`encontrado ${userFound}`);
+
             return done(null, userFound);
         },
     ),

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { logger } from "../config/winstongLogger.config.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -9,8 +10,8 @@ export async function connectToDatabase() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log("Successful connection to MongoDB");
+        logger.info("Successful connection to MongoDB");
     } catch (error) {
-        console.error("MongoDB connection error:", error);
+        logger.error(`MongoDB connection error: ${error}`);
     }
 }

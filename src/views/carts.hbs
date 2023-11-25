@@ -76,7 +76,6 @@ async function getCurrentUser() {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             const { first_name, role, cart } = data;
 
             userName = first_name;
@@ -108,7 +107,7 @@ confirm.addEventListener("click", () => {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
+          
             if(data.productsNotValidated.length == 0){
                 alert(`Se generó un ticket con el codigo ${data.ticket.code}, todos los productos fueron procesados`)
                 getCart()

@@ -29,7 +29,7 @@ async function getCurrentUser() {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
+         
             const { first_name, role, cart } = data;
 
             userName = first_name;

@@ -12,7 +12,7 @@ class Cart_Controller {
     async postCart(req, res) {
         try {
             const newCart = req.body;
-            console.log(newCart);
+            logger.info(`${newCart}`);
             if (!newCart) {
                 return res
                     .status(400)
@@ -21,7 +21,8 @@ class Cart_Controller {
             const response = await cartManager.addCarts(newCart.products);
             return res.status(200).json({ message: response });
         } catch (error) {
-            console.log(error);
+            res.logger.debug(`In cart controller, postCart${error}`);
+            res.logger.error(`In cart controller, postCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
@@ -36,7 +37,8 @@ class Cart_Controller {
             }
             return res.status(200).json(response);
         } catch (error) {
-            console.log(error);
+            res.logger.debug(`In cart controller, getCarts${error}`);
+            res.logger.error(`In cart controller, getCarts${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
@@ -52,7 +54,8 @@ class Cart_Controller {
             res.set("Content-Type", "application/json");
             return res.status(200).json(productsCart);
         } catch (error) {
-            console.log(error);
+            res.logger.debug(`In cart controller, getCartsById${error}`);
+            res.logger.error(`In cart controller, getCartsById${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
@@ -101,7 +104,8 @@ class Cart_Controller {
             cart.save();
             res.status(200).json({ cart_saved: cart.products });
         } catch (error) {
-            console.error("Error en el catch", error);
+            res.logger.debug(`In cart controller, postProductInCart${error}`);
+            res.logger.error(`In cart controller, postProductInCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
@@ -124,16 +128,16 @@ class Cart_Controller {
                 return res.status(200).json(cartWithoutProduct);
             }
         } catch (error) {
-            console.error("Error en el catch", error);
+            res.logger.debug(`In cart controller, deleteProductInCart${error}`);
+            res.logger.error(`In cart controller, deleteProductInCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
 
     async updateCart(req, res) {
         const cid = req.params.cid;
-        console.log(cid);
+
         const productsUpdate = req.body;
-        console.log(productsUpdate);
 
         try {
             const cartUpdated = await cartManager.updateProductsInCart(
@@ -144,7 +148,8 @@ class Cart_Controller {
                 return res.status(200).json(cartUpdated);
             }
         } catch (error) {
-            console.error(error);
+            res.logger.debug(`In cart controller, updateCart${error}`);
+            res.logger.error(`In cart controller, updateCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
@@ -164,7 +169,8 @@ class Cart_Controller {
                 return res.status(200).json(cartUpdated);
             }
         } catch (error) {
-            console.error(error);
+            res.logger.debug(`In cart controller, updateProductInCart${error}`);
+            res.logger.error(`In cart controller, updateProductInCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }
@@ -178,7 +184,8 @@ class Cart_Controller {
                 return res.status(200).json(cartUpdated);
             }
         } catch (error) {
-            console.error(error);
+            res.logger.debug(`In cart controller, deleteCart${error}`);
+            res.logger.error(`In cart controller, deleteCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }

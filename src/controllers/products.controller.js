@@ -28,7 +28,8 @@ class Products_Controller {
     async getProductId(req, res) {
         const pid = req.params.pid; // si es fileSystem esto debe ser parseado a Num si es para mongo db esta bien como string
         const product = await productManager.getProductById(pid);
-        console.log(product);
+        res.logger.debug(`In productsController, getProductId: ${error}`);
+        res.logger.error(`In productsController, getProductId: ${error}`);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
@@ -45,7 +46,8 @@ class Products_Controller {
             100,
             {},
         );
-        console.log(productsUpdated);
+        res.logger.debug(`In productsController, postProduct: ${error}`);
+        res.logger.error(`In productsController, postProduct: ${error}`);
         io.emit("update", productsUpdated);
         res.status(200).json({ product: response });
     }

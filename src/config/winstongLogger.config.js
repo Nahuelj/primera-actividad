@@ -6,9 +6,8 @@ const customFormat = winston.format.printf(({ level, message, timestamp }) => {
     return `{"level":"${level}","timestamp":"${timestamp}","message":"${message}"},`;
 });
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
     level: "error",
-
     transports: [
         new winston.transports.File({
             filename: "errorLogs.txt",
@@ -31,7 +30,7 @@ if (process.env.MODE === "-D") {
     );
 }
 
-export const middlewareLogger = (req, res, next) => {
+export function middlewareLogger(req, res, next) {
     req.logger = logger;
     next();
-};
+}

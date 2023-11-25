@@ -1,4 +1,5 @@
 import { ProductModel } from "../models/product.model.js";
+import { logger } from "../../config/winstongLogger.config.js";
 
 export class ProductManager {
     async getProducts(query, pageArg, limitArg, sortArg) {
@@ -68,11 +69,11 @@ export class ProductManager {
         try {
             const product = new ProductModel(objeto);
             const result = await product.save();
-            console.log(`Product successfully added with id:${result._id}`);
+            logger.info(`Product successfully added with id:${result._id}`);
             return result;
         } catch (error) {
             if (error.code === 11000 && error.keyPattern.code) {
-                console.log(`Product with code ${objeto.code} already exists`);
+                logger.info(`Product with code ${objeto.code} already exists`);
                 return `Product with code ${objeto.code} already exists`;
             }
             console.error("Error adding product:", error.message);

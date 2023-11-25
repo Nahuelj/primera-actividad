@@ -39,7 +39,6 @@ socket.on("reloadMessages", (messages) => {
     messages.forEach((object) => {
         htmlCont += `<li>${object.emisor}: ${object.message}</li>`;
     });
-    console.log(messages);
     containerMessages.innerHTML = htmlCont;
 });
 
@@ -49,7 +48,6 @@ socket.on("reloadMessagesForOthers", (messages) => {
     messages.forEach((object) => {
         htmlCont += `<li>${object.emisor}: ${object.message}</li>`;
     });
-    console.log(messages);
     containerMessages.innerHTML = htmlCont;
 });
 
