@@ -16,6 +16,7 @@ import { connectToDatabase } from "./dao/connectDB.js";
 import { mockingRouter } from "./routes/mocking.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { middlewareLogger, logger } from "./config/winstongLogger.config.js";
+import { recoverPasswordRouter } from "./routes/recoverPassword.routes.js";
 
 // Express
 const app = express();
@@ -52,6 +53,7 @@ app.use("/logger", (req, res) => {
     logger.log("error", "ERROR FATAL");
     res.send("logger");
 });
+app.use(recoverPasswordRouter);
 //Handlebars
 app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");
