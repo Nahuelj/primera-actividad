@@ -17,10 +17,12 @@ import { mockingRouter } from "./routes/mocking.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { middlewareLogger, logger } from "./config/winstongLogger.config.js";
 import { recoverPasswordRouter } from "./routes/recoverPassword.routes.js";
+import cookieParser from "cookie-parser";
 
 // Express
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.disable("x-powered-by");
 //SESSIONS
