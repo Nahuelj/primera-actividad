@@ -18,6 +18,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { middlewareLogger, logger } from "./config/winstongLogger.config.js";
 import { recoverPasswordRouter } from "./routes/recoverPassword.routes.js";
 import cookieParser from "cookie-parser";
+import { routerUser } from "./routes/user.routes.js";
 
 // Express
 const app = express();
@@ -56,6 +57,7 @@ app.use("/logger", (req, res) => {
     res.send("logger");
 });
 app.use(recoverPasswordRouter);
+app.use(routerUser);
 //Handlebars
 app.engine("hbs", handlebars.engine());
 app.set("views", __dirname + "/views");

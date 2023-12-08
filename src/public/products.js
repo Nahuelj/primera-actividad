@@ -3,12 +3,14 @@ const back = document.querySelector("#back");
 const following = document.querySelector("#following");
 const page = document.querySelector("#page");
 let cart = document.querySelectorAll(".item");
+const checkbox = document.querySelector("#userPremium");
 
 //current user
 let currentUser;
 let userName;
 let userRole;
 let cartId;
+let emailUser;
 
 async function getCurrentUser() {
     const url = `http://localhost:8080/session/current`;
@@ -25,11 +27,17 @@ async function getCurrentUser() {
         })
         .then((data) => {
             console.log(data);
-            const { first_name, role, cart } = data;
-
+            const { first_name, role, cart, email } = data;
+            currentUser = data;
             userName = first_name;
             userRole = role;
             cartId = cart;
+            emailUser = email;
+
+            if (userRole == "premium") {
+                checkbox.check = true;
+                checkbox.checked = true;
+            }
 
             if (userRole != "user") {
                 alert(`¡¡Hola Admin, bienvenido!!`);
@@ -42,6 +50,31 @@ async function getCurrentUser() {
         });
 }
 getCurrentUser();
+
+checkbox.addEventListener("change", () => {
+    const url = `http://localhost:8080/user/premium`;
+    const requestOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: emailUser }),
+    };
+
+    fetch(url, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+});
 
 let pag = 1;
 let product = "";
