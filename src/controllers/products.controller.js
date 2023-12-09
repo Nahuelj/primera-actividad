@@ -1,5 +1,6 @@
 import { ProductManager } from "../dao/mongoDb/productManagerMongoDb.js";
 import { io } from "../app.js";
+import { ProductModel } from "../dao/models/product.model.js";
 
 export const productManager = new ProductManager();
 
@@ -28,8 +29,8 @@ class Products_Controller {
     async getProductId(req, res) {
         const pid = req.params.pid; // si es fileSystem esto debe ser parseado a Num si es para mongo db esta bien como string
         const product = await productManager.getProductById(pid);
-        res.logger.debug(`In productsController, getProductId: ${error}`);
-        res.logger.error(`In productsController, getProductId: ${error}`);
+        req.logger.debug(`In productsController, getProductId: ${error}`);
+        req.logger.error(`In productsController, getProductId: ${error}`);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
@@ -46,8 +47,7 @@ class Products_Controller {
             100,
             {},
         );
-        res.logger.debug(`In productsController, postProduct: ${error}`);
-        res.logger.error(`In productsController, postProduct: ${error}`);
+
         io.emit("update", productsUpdated);
         res.status(200).json({ product: response });
     }
@@ -72,19 +72,42 @@ class Products_Controller {
     }
 
     async deleteProductId(req, res) {
+        if (req.user.role === "user") {
+            res.status(400).json({ message: "invalid credentials" });
+        }
+
         const pid = req.params.pid; // si es fileSystem esto debe ser parseado a Num si es para mongo db esta bien como string
         if (!pid) {
             return res.status(400).json({ message: "product id not provided" });
         }
-        const response = await productManager.deleteProduct(pid);
-        res.status(200).json({
-            message: "product removed",
-            product: response,
-        });
-
-        //Socket io /realTimeProducts
-        const productsUpdated = await productManager.getProducts();
-        io.emit("update", productsUpdated);
+        if (req.user.role === "premium") {
+            const productFound = await ProductModel.findOne({
+                _id: pid,
+            });
+            if (productFound.owner === req.user.email) {
+                const response = await productManager.deleteProduct(pid);
+                res.status(200).json({
+                    message: "product removed",
+                    product: response,
+                });
+                //Socket io /realTimeProducts
+                const productsUpdated = await productManager.getProducts();
+                io.emit("update", productsUpdated);
+            } else {
+                res.status(400).json({
+                    message: "you are not the owner of the product",
+                });
+            }
+        } else if (req.user.role === "admin") {
+            const response = await productManager.deleteProduct(pid);
+            res.status(200).json({
+                message: "product removed",
+                product: response,
+            });
+            //Socket io /realTimeProducts
+            const productsUpdated = await productManager.getProducts();
+            io.emit("update", productsUpdated);
+        }
     }
 }
 

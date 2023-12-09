@@ -15,6 +15,8 @@ const priceInput = document.getElementById("price");
 const codeInput = document.getElementById("code");
 const buttonSubmit = document.getElementById("submit");
 const container = document.querySelector("#container");
+let role = "";
+let userEmail = "";
 
 async function getProducts() {
     const url = `http://localhost:8080/api/products?limit=100`;
@@ -42,12 +44,42 @@ async function getProducts() {
 }
 getProducts();
 
+async function currenUser() {
+    const url = `http://localhost:8080/session/current`;
+    const requestOptions = {
+        method: "GET",
+    };
+
+    await fetch(url, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la solicitud");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            role = data.role;
+            userEmail = data.email;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+currenUser();
+
 function addProduct() {
     if (
         productInput.value !== "" &&
         priceInput.value !== "" &&
         codeInput.value !== ""
     ) {
+        let userOwner = "";
+        if (role === "premium") {
+            userOwner = userEmail;
+        } else if (role === "admin") {
+            userOwner = "admin";
+        }
+
         const dataProduct = {
             title: productInput.value,
             description: "product added from realtimeProducts",
@@ -56,8 +88,9 @@ function addProduct() {
             stock: Math.floor(Math.random() * (20 - 5 + 1) + 5),
             status: true,
             category: "unknown",
+            owner: userOwner,
         };
-
+        console.log(dataProduct);
         const url = "http://localhost:8080/api/products/";
         const requestOptions = {
             method: "POST",
