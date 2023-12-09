@@ -4,6 +4,7 @@ const following = document.querySelector("#following");
 const page = document.querySelector("#page");
 let cart = document.querySelectorAll(".item");
 const checkbox = document.querySelector("#userPremium");
+const containerDiv = document.getElementById("containerPremium");
 
 //current user
 let currentUser;
@@ -37,6 +38,10 @@ async function getCurrentUser() {
             if (userRole == "premium") {
                 checkbox.check = true;
                 checkbox.checked = true;
+                const a = `<a href="/realTimeProducts">Agregar Productos</a>`;
+                containerDiv.innerHTML = a;
+            } else {
+                containerDiv.innerHTML = "";
             }
 
             if (userRole != "user") {
@@ -69,7 +74,12 @@ checkbox.addEventListener("change", () => {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
+            if (data == "usuario pasado a premium") {
+                const a = `<a href="/realTimeProducts">Agregar Productos</a>`;
+                containerDiv.innerHTML = a;
+            } else if (data == "usuario pasado a user") {
+                containerDiv.innerHTML = "";
+            }
         })
         .catch((error) => {
             console.error(error);
