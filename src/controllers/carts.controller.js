@@ -69,12 +69,21 @@ class Cart_Controller {
     }
 
     async postProductInCart(req, res) {
+        const user = req.user;
         const cid = req.params.cid;
         const pid = req.params.pid;
+
         const { quantity } = req.body;
         const quantityVefiqued = quantity > 1 ? quantity : 1;
 
         const product = await productManager.getProductById(pid);
+
+        if (product.owner === user.email) {
+            return res.status(401).json({
+                message: "You cannot add the product to the same owner",
+            });
+        }
+
         const cart = await cartManager.getCartById(cid);
         if (typeof product !== "object") {
             return res.status(404).json({ message: "Producto no encontrado" });
@@ -104,8 +113,8 @@ class Cart_Controller {
             cart.save();
             res.status(200).json({ cart_saved: cart.products });
         } catch (error) {
-            res.logger.debug(`In cart controller, postProductInCart${error}`);
-            res.logger.error(`In cart controller, postProductInCart${error}`);
+            req.logger.debug(`In cart controller, postProductInCart${error}`);
+            req.logger.error(`In cart controller, postProductInCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }

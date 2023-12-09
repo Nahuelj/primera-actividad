@@ -1,0 +1,1 @@
+{"level":"error","timestamp":"2023-12-09 20:36:14","message":"In cart controller, postProductInCartError [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client"},
