@@ -12,6 +12,7 @@ let userName;
 let userRole;
 let cartId;
 let emailUser;
+let idUser;
 
 async function getCurrentUser() {
     const url = `http://localhost:8080/session/current`;
@@ -28,7 +29,7 @@ async function getCurrentUser() {
         })
         .then((data) => {
             console.log(data);
-            const { first_name, role, cart, email } = data;
+            const { first_name, role, cart, email, _id } = data;
             currentUser = data;
             userName = first_name;
             userRole = role;
@@ -57,13 +58,9 @@ async function getCurrentUser() {
 getCurrentUser();
 
 checkbox.addEventListener("change", () => {
-    const url = `http://localhost:8080/user/premium`;
+    const url = `http://localhost:8080/api/users/premium/${currentUser._id}`;
     const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: emailUser }),
+        method: "PUT",
     };
 
     fetch(url, requestOptions)
