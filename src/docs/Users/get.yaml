@@ -2,6 +2,8 @@ paths:
     /api/products:
         get:
             summary: Obtener todos los productos
+            tags:
+                - Products
             description: Esta ruta devuelve los productos paginados.
             parameters:
                 - name: page
@@ -35,6 +37,8 @@ paths:
     /api/products/{pid}:
         get:
             summary: Obtener un producto en especifico
+            tags:
+                - Products
             description: Esta ruta devuelve un producto segun su id
             parameters:
                 - name: pid

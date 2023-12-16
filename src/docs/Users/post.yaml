@@ -1,0 +1,97 @@
+/api/products:
+    post:
+        summary: Crear un producto nuevo
+        tags:
+            - Products
+        description: Esta ruta crea un producto nuevo en la base de datos
+        parameters:
+            - name: title
+              in: query
+              description: El título del producto
+              required: true
+              schema:
+                  type: string
+            - name: description
+              in: query
+              description: La descripción del producto
+              required: true
+              schema:
+                  type: string
+            - name: price
+              in: query
+              description: El precio del producto
+              required: true
+              schema:
+                  type: number
+            - name: thumbnails
+              in: query
+              description: Las miniaturas del producto
+              required: true
+              schema:
+                  type: array
+                  items:
+                      type: string
+            - name: code
+              in: query
+              description: El código del producto
+              required: true
+              schema:
+                  type: string
+            - name: stock
+              in: query
+              description: El stock del producto
+              required: true
+              schema:
+                  type: number
+            - name: status
+              in: query
+              description: El estado del producto
+              required: true
+              schema:
+                  type: boolean
+            - name: category
+              in: query
+              description: La categoría del producto
+              required: true
+              schema:
+                  type: string
+            - name: owner
+              in: query
+              description: El propietario del producto
+              required: true
+              schema:
+                  type: string
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            title:
+                                type: string
+                            description:
+                                type: string
+                            price:
+                                type: number
+                            thumbnails:
+                                type: array
+                                items:
+                                    type: string
+                            code:
+                                type: string
+                            stock:
+                                type: number
+                            status:
+                                type: boolean
+                            category:
+                                type: string
+                            owner:
+                                type: string
+        responses:
+            201:
+                description: Producto creado
+            401:
+                description: Creadenciales invalidas
+            500:
+                description: Error del servidor.

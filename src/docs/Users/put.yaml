@@ -1,0 +1,21 @@
+/api/products/{pid}:
+    put:
+        summary: Obtener un producto en especifico y actualizar campos especificos.
+        tags:
+            - Products
+        description: Esta ruta devuelve el producto actualizado
+        parameters:
+            - name: pid
+              in: path
+              description: id del producto buscado
+              required: true
+              schema:
+                  type: string
+
+        responses:
+            200:
+                description: Producto actualizado.
+            404:
+                description: Producto no encontrado.
+            500:
+                description: Error del servidor.

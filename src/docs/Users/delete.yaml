@@ -1,0 +1,23 @@
+/api/products/{pid}:
+    delete:
+        summary: Eliminar un producto especifico de la base de datos
+        tags:
+            - Products
+        description: Esta ruta devuelve el producto que ha sido elimminado
+        parameters:
+            - name: pid
+              in: path
+              description: id del producto buscado
+              required: true
+              schema:
+                  type: string
+
+        responses:
+            204:
+                description: Producto eliminado correctamente.
+            404:
+                description: Producto no encontrado.
+            401:
+                description: Credenciales invalidas
+            500:
+                description: Error del servidor.
