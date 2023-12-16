@@ -19,7 +19,8 @@ import { middlewareLogger, logger } from "./config/winstongLogger.config.js";
 import { recoverPasswordRouter } from "./routes/recoverPassword.routes.js";
 import cookieParser from "cookie-parser";
 import { routerUserPremium } from "./routes/user.routes.js";
-
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 // Express
 const app = express();
 app.use(express.json());
@@ -44,7 +45,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routers
-
 app.use(viewsRouter);
 app.use(sessionsRouter);
 app.use(middlewareLogger);
@@ -65,11 +65,28 @@ app.set("view engine", "hbs");
 app.use(express.static(__dirname + "/public"));
 
 app.use(errorHandler);
+
+//swagger
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Tu API con Swagger",
+            version: "0.1.0",
+            description:
+                "Esta es una simple API RESTful hecha con Express y documentada con Swagger",
+        },
+    },
+    apis: ["./src/docs/**/*.yaml"], // Aquí es donde debes especificar las rutas a tus archivos con definiciones de la API
+};
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
 // Route not found
 app.use((req, res) => {
     res.status(404).send("Page not found");
 });
-
 // Listen
 const PORT = 8080;
 const httpServer = app.listen(

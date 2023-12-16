@@ -1,0 +1,96 @@
+paths:
+    /api/products:
+        get:
+            summary: Obtener todos los productos
+            description: Esta ruta devuelve los productos paginados.
+            parameters:
+                - name: page
+                  in: query
+                  description: Número de página a obtener.
+                  required: false
+                  schema:
+                      type: integer
+                      default: 1
+                - name: limit
+                  in: query
+                  description: Número máximo de productos por página.
+                  required: false
+                  schema:
+                      type: integer
+                      default: 10
+            responses:
+                200:
+                    description: Una lista de productos.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Product"
+                404:
+                    description: No hay productos.
+                500:
+                    description: Error del servidor.
+
+    /api/products/{pid}:
+        get:
+            summary: Obtener un producto en especifico
+            description: Esta ruta devuelve un producto segun su id
+            parameters:
+                - name: pid
+                  in: path
+                  description: id del producto buscado
+                  required: true
+                  schema:
+                      type: string
+                      default: 6515a26fd38c11d1604a8429
+            responses:
+                200:
+                    description: Producto encontrado
+                404:
+                    description: Producto no encontrado.
+                500:
+                    description: Error del servidor.
+
+components:
+    schemas:
+        Product:
+            type: object
+            properties:
+                title:
+                    type: string
+                    required: true
+                description:
+                    type: string
+                    required: true
+                price:
+                    type: number
+                    required: true
+                thumbnails:
+                    type: array
+                    items:
+                        type: string
+                code:
+                    type: string
+                    required: true
+                    unique: true
+                stock:
+                    type: number
+                    required: true
+                status:
+                    type: boolean
+                    required: true
+                category:
+                    type: string
+                    required: true
+                owner:
+                    type: string
+                    default: "admin"
+            required:
+                - title
+                - description
+                - price
+                - code
+                - stock
+                - status
+                - category
