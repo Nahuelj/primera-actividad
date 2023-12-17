@@ -1,0 +1,114 @@
+/api/carts/{cid}/products/{pid}:
+    put:
+        summary: Actualiza un producto especifico en un carrito especifico
+        tags:
+            - Carts
+        description: Esta ruta devuelve el producto actualizado en el carrito
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+            - name: pid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 6515a26fd38c11d1604a8427
+            - name: Object
+              in: request
+              description: Objeto con propiedades a actualizar
+              required: false
+              schema:
+                  type: object
+                  properties:
+                      title:
+                          type: string
+                      description:
+                          type: string
+                      price:
+                          type: number
+                      thumbnails:
+                          type: array
+                          items:
+                              type: string
+                      code:
+                          type: string
+                      stock:
+                          type: number
+                      status:
+                          type: boolean
+                      category:
+                          type: string
+        responses:
+            201:
+                description: Producto en carrito
+            401:
+                description: Credenciales Invalidas
+            404:
+                description: Producto en carrito no encontrado o carrito no encontrado.
+            500:
+                description: Error del servidor.
+
+/carts/:cid:
+    put:
+        summary: Actualiza un carrito
+        tags:
+            - Carts
+        description: Esta ruta devuelve el carrito actualizado
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+            - name: Object
+              in: request
+              description: Objeto con propiedades a actualizar
+              required: false
+              schema:
+                  type: object
+                  properties:
+                      products:
+                          type: Array
+        responses:
+            201:
+                description: Producto en carrito
+            401:
+                description: Credenciales Invalidas
+            404:
+                description: Producto en carrito no encontrado o carrito no encontrado.
+            500:
+                description: Error del servidor.
+
+/carts/:cid/products/:pid:
+    put:
+        summary: Actualiza un producto o dentro de un carrito
+        tags:
+            - Carts
+        description: Esta ruta devuelve el producto actualizado
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+            - name: Object
+
+        responses:
+            200:
+                description: Producto actualizado
+            401:
+                description: Credenciales Invalidas
+            404:
+                description: Producto en carrito no encontrado o carrito no encontrado.
+            500:
+                description: Error del servidor.

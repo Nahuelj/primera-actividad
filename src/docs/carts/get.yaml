@@ -1,0 +1,148 @@
+paths:
+    /api/carts:
+        get:
+            summary: Obtener todos los carritos
+            tags:
+                - Carts
+            description: Esta ruta devuelve los carritos
+            responses:
+                200:
+                    description: Una lista de carritos
+                404:
+                    description: No hay carritos.
+                500:
+                    description: Error del servidor.
+
+/api/carts/{cid}:
+    get:
+        summary: Obtener un carrito en especifico
+        tags:
+            - Carts
+        description: Esta ruta devuelve un carrito segun su id
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+        responses:
+            200:
+                description: Carrito encontrado
+            404:
+                description: Carrito no encontrado.
+            500:
+                description: Error del servidor.
+
+/api/carts/{cid}/products/{pid}:
+    get:
+        summary: Obtener un producto en especifico de un carrito en especifico
+        tags:
+            - Carts
+        description: Esta ruta devuelve un producto contenido en un carrito
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+            - name: pid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 6515a26fd38c11d1604a8427
+        responses:
+            200:
+                description: Producto en carrito encontrado
+            404:
+                description: Producto en carrito no encontrado o carrito no encontrado.
+            500:
+                description: Error del servidor.
+
+components:
+    schemas:
+        Product:
+            type: object
+            properties:
+                title:
+                    type: string
+                    required: true
+                description:
+                    type: string
+                    required: true
+                price:
+                    type: number
+                    required: true
+                thumbnails:
+                    type: array
+                    items:
+                        type: string
+                code:
+                    type: string
+                    required: true
+                    unique: true
+                stock:
+                    type: number
+                    required: true
+                status:
+                    type: boolean
+                    required: true
+                category:
+                    type: string
+                    required: true
+                owner:
+                    type: string
+                    default: "admin"
+            required:
+                - title
+                - description
+                - price
+                - code
+                - stock
+                - status
+                - category
+
+        Cart:
+            type: object
+            properties:
+                products:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            _id:
+                                type: string
+                                format: uuid
+                            quantity:
+                                type: integer
+            required:
+                - products
+
+/carts/:cid/purchase:
+    get:
+        summary: Confirmar compra de ese carrito
+        tags:
+            - Carts
+        description: Esta ruta devuelve un tiket y un obeto con los productos no disponibles
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+        responses:
+            200:
+                description: Compra finalizada correctamente
+            404:
+                description: Carrito no encontrado.
+            401:
+                description: Credenciales invalidas
+            500:
+                description: Error del servidor.

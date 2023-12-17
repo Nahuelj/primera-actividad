@@ -1,0 +1,56 @@
+/carts/:cid/products/:pid:
+    delete:
+        summary: Elimina un producto de un carrito
+        tags:
+            - Carts
+        description: Esta ruta devuelve el producto eliminado
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+            - name: pid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 6515a26fd38c11d1604a8427
+
+        responses:
+            200:
+                description: Producto eliminado
+            401:
+                description: Credenciales Invalidas
+            404:
+                description: Producto en carrito no encontrado o carrito no encontrado.
+            500:
+                description: Error del servidor.
+
+/carts/:cid:
+    delete:
+        summary: Elimina un carrito
+        tags:
+            - Carts
+        description: Esta ruta devuelve el carrito eliminado
+        parameters:
+            - name: cid
+              in: path
+              description: id del carrito buscado
+              required: true
+              schema:
+                  type: string
+                  default: 65163b0853f43face4901762
+
+        responses:
+            200:
+                description: Carrito eliminado
+            401:
+                description: Credenciales Invalidas
+            404:
+                description: Carrito eliminado
+            500:
+                description: Error del servidor.
