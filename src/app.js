@@ -71,7 +71,7 @@ const swaggerOptions = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Tu API con Swagger",
+            title: "API ECOMMERCE",
             version: "0.1.0",
             description:
                 "Esta es una simple API RESTful hecha con Express y documentada con Swagger",
