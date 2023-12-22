@@ -22,7 +22,7 @@ import { routerUserPremium } from "./routes/user.routes.js";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 // Express
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));

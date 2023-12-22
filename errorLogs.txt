@@ -1,1 +1,4 @@
 {"level":"error","timestamp":"2023-12-09 20:36:14","message":"In cart controller, postProductInCartError [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client"},
+{"level":"error","timestamp":"2023-12-22 19:35:19","message":"MongoDB connection error: MongoNetworkTimeoutError: connection 1 to 54.157.204.72:27017 timed out"},
+{"level":"error","timestamp":"2023-12-22 19:53:09","message":"MongoDB connection error: MongoNetworkError: connection 1 to 54.157.204.72:27017 closed"},
+{"level":"error","timestamp":"2023-12-22 20:19:02","message":"MongoDB connection error: MongooseServerSelectionError: Server selection timed out after 30000 ms"},
