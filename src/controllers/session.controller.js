@@ -2,7 +2,7 @@ import { UserCurrent } from "../dto/dto.js";
 
 class Session_Controller {
     register(req, res) {
-        res.send({ status: "success", message: "user registered" });
+        res.json({ status: "success", message: "user registered" });
     }
 
     failed(req, res) {

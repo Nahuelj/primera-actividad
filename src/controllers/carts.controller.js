@@ -21,8 +21,8 @@ class Cart_Controller {
             const response = await cartManager.addCarts(newCart.products);
             return res.status(200).json({ message: response });
         } catch (error) {
-            res.logger.debug(`In cart controller, postCart${error}`);
-            res.logger.error(`In cart controller, postCart${error}`);
+            req.logger.debug(`In cart controller, postCart${error}`);
+            req.logger.error(`In cart controller, postCart${error}`);
             return res.status(500).json({ message: "Algo salió mal" });
         }
     }

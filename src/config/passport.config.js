@@ -1,7 +1,6 @@
 import passport from "passport";
 import passportLocal from "passport-local";
 import { UserModel } from "../dao/models/user.model.js";
-import { CartModel } from "../dao/models/cart.model.js";
 import { cartManager } from "../dao/mongoDb/cartManagerMongoDb.js";
 import bcrypt from "bcrypt";
 

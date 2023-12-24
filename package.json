@@ -5,7 +5,7 @@
     "main": "./src/app.js",
     "type": "module",
     "scripts": {
-        "test": "mocha tests/routeProducts.test.js --exit",
+        "test": "mocha tests/testRoutes.test.js --exit",
         "dev": "nodemon ./src/app.js"
     },
     "keywords": [],
