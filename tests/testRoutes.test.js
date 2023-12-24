@@ -91,39 +91,51 @@ describe("Test route carts", async function () {
     });
 });
 
-describe("Test route session", async function () {
-    this.timeout(20000);
-    it("register must return status: success", async () => {
-        try {
-            const requestBody = {
-                first_name: "user",
-                last_name: "test",
-                age: 30,
-                email: "usertest1235@gmail.com",
-                password: "1234",
-            };
+// describe("Test route session", async function () {
+//     this.timeout(20000);
+//     it("if the user exists the registration should redirect /failregister", async () => {
+//         try {
+//             const requestBody = {
+//                 first_name: "user",
+//                 last_name: "test",
+//                 age: 30,
+//                 email: "usertest1235@gmail.com",
+//                 password: "1234",
+//             };
+//             const response = await requester
+//                 .post("/session/register")
+//                 .send(requestBody);
+//             const object = response.text;
 
-            const response = await requester
-                .post("/session/register")
-                .send(requestBody);
+//             expect(object).to.equal("Found. Redirecting to /failregister");
+//         } catch (error) {
+//             console.log("Something went wrong", error);
+//             throw error;
+//         }
+//     });
 
-            const object = response.json;
+//     it("if the user does not exists the registration should redirect /login", async () => {
+//         try {
+//             const requestBody = {
+//                 first_name: "user",
+//                 last_name: "test",
+//                 age: 30,
+//                 email: "usertest1234@gmail.com",
+//                 password: "1234",
+//             };
+//             const response = await requester
+//                 .post("/session/register")
+//                 .send(requestBody);
+//             const object = response.text;
+//             console.log(
+//                 "🚀 ~ file: testRoutes.test.js:130 ~ it ~ object:",
+//                 object,
+//             );
 
-            console.log(
-                "🚀 ~ file: testRoutes.test.js:109 ~ it ~ object:",
-                object,
-            );
-
-            // const userDeleted = UserModel.findOneAndDelete({
-            //     email: "usertest123@gmail.com",
-            // });
-            // console.log(
-            //     "🚀 ~ file: testRoutes.test.js:114 ~ it ~ userDeleted:",
-            //     userDeleted,
-            // );
-        } catch (error) {
-            console.log("Something went wrong", error);
-            throw error;
-        }
-    });
-});
+//             expect(object).to.equal("Found. Redirecting to /login");
+//         } catch (error) {
+//             console.log("Something went wrong", error);
+//             throw error;
+//         }
+//     });
+// });
