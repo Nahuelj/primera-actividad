@@ -1,6 +1,13 @@
 import supertest from "supertest";
 import chai from "chai";
-import { UserModel } from "../src/dao/models/user.model.js";
+import mongoose, { mongo } from "mongoose";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+
+await mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 const expect = chai.expect;
 const requester = supertest("http://localhost:8080");
@@ -91,51 +98,66 @@ describe("Test route carts", async function () {
     });
 });
 
-// describe("Test route session", async function () {
-//     this.timeout(20000);
-//     it("if the user exists the registration should redirect /failregister", async () => {
-//         try {
-//             const requestBody = {
-//                 first_name: "user",
-//                 last_name: "test",
-//                 age: 30,
-//                 email: "usertest1235@gmail.com",
-//                 password: "1234",
-//             };
-//             const response = await requester
-//                 .post("/session/register")
-//                 .send(requestBody);
-//             const object = response.text;
+describe("Test route session", async function () {
+    beforeEach(async function () {
+        await mongoose.connection
+            .collection("users")
+            .deleteMany({ email: `usertest1234@gmail.com` });
+    });
 
-//             expect(object).to.equal("Found. Redirecting to /failregister");
-//         } catch (error) {
-//             console.log("Something went wrong", error);
-//             throw error;
-//         }
-//     });
+    this.timeout(20000);
+    it("if the user exists the registration should redirect /failregister", async () => {
+        try {
+            const requestBody = {
+                first_name: "user",
+                last_name: "test",
+                age: 30,
+                email: "usertest1235@gmail.com",
+                password: "1234",
+            };
+            const response = await requester
+                .post("/session/register")
+                .send(requestBody);
+            const object = response.text;
 
-//     it("if the user does not exists the registration should redirect /login", async () => {
-//         try {
-//             const requestBody = {
-//                 first_name: "user",
-//                 last_name: "test",
-//                 age: 30,
-//                 email: "usertest1234@gmail.com",
-//                 password: "1234",
-//             };
-//             const response = await requester
-//                 .post("/session/register")
-//                 .send(requestBody);
-//             const object = response.text;
-//             console.log(
-//                 "🚀 ~ file: testRoutes.test.js:130 ~ it ~ object:",
-//                 object,
-//             );
+            expect(object).to.equal("Found. Redirecting to /failregister");
+        } catch (error) {
+            console.log("Something went wrong", error);
+            throw error;
+        }
+    });
 
-//             expect(object).to.equal("Found. Redirecting to /login");
-//         } catch (error) {
-//             console.log("Something went wrong", error);
-//             throw error;
-//         }
-//     });
-// });
+    it("if the user does not exists the registration should redirect /login", async () => {
+        try {
+            const requestBody = {
+                first_name: "user",
+                last_name: "test",
+                age: 30,
+                email: `usertest1234@gmail.com`,
+                password: "1234",
+            };
+            const response = await requester
+                .post("/session/register")
+                .send(requestBody);
+            const object = response.text;
+
+            expect(object).to.equal("Found. Redirecting to /login");
+        } catch (error) {
+            console.log("Something went wrong", error);
+            throw error;
+        }
+    });
+
+    it("logout must return redirect to /login", async () => {
+        try {
+            const response = await requester.get("/session/logout");
+
+            const object = response.text;
+
+            expect(object).to.equal("Found. Redirecting to /login");
+        } catch (error) {
+            console.log("Something went wrong", error);
+            throw error;
+        }
+    });
+});
