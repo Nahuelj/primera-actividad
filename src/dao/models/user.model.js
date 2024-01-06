@@ -10,6 +10,13 @@ const userSchema = new mongoose.Schema(
         email: { type: String, required: true },
         password: { type: String },
         github: {},
+        documents: [
+            {
+                name: { type: String },
+                reference: { type: String },
+            },
+        ],
+        last_connection: { type: Date },
     },
     { timestamps: true },
 );

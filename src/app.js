@@ -21,6 +21,8 @@ import cookieParser from "cookie-parser";
 import { routerUserPremium } from "./routes/user.routes.js";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import second from "multer";
+import multer from "multer";
 // Express
 export const app = express();
 app.use(express.json());
@@ -83,10 +85,13 @@ const swaggerOptions = {
 const specs = swaggerJsdoc(swaggerOptions);
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
+//Multer
+
 // Route not found
-app.use((req, res) => {
-    res.status(404).send("Page not found");
-});
+// app.use((req, res) => {
+//     res.status(404).send("Page not found");
+// });
+
 // Listen
 const PORT = 8080;
 const httpServer = app.listen(
