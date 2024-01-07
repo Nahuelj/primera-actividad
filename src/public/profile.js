@@ -1,54 +1,3 @@
-<h1 id="h1">Bienvenid@ </h1>
-<a id="anchor" href="/cart">Gestionar Carrito</a>
-<br />
-<br />
-<a href="/products">Agregar Productos</a>
-<br />
-<br />
-
-<h3>Subir documentación</h3>
-<br />
-    <label for="">Foto de perfil</label>
-    <br />
-    <input id="profileFile" name="myFile" type="file" />
-    <br />
-    <button id="buttonProfile" >Enviar</button>
-<br />
-<br />
-    <label for="">Identificación</label>
-    <br />
-    <input type="file" name="myFile" id="indentification" />
-    <br />
-    <button id="buttonDoc1" >Enviar</button>
-<br />
-<br />
-    <label for="">Comprobante de domicilio</label>
-    <br />
-    <input type="file" name="myFile" id="domicilio" />
-    <br />
-    <button id="buttonDoc2" >Enviar</button>
-<br />
-<br />
-    <label for="">Comprobante de estado de cuenta</label>
-    <br />
-    <input type="file" name="myFile" id="estadoCuenta" />
-    <br />
-    <button id="buttonDoc3" >Enviar</button>
-    <br>
-    <br>
-    <label for="">Foto de productos</label>
-    <br />
-    <input type="file" id="productsFile" />
-    <br />
-    <button id="buttonProducts" >Enviar</button>
-<br>
-<br>
-<a href="/products">regresar</a>
-<br />
-<br />
-<a href="/session/logout">Cerrar sesión</a>
-
-<script>
 console.log("index tomado");
 
 let userName;
@@ -122,8 +71,8 @@ async function sendFile(input, folder) {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Respuesta del servidor:", data);
-                input.value ="";
-                alert("file upload")
+                input.value = "";
+                alert("file upload");
             })
             .catch((error) => {
                 console.error("Error al enviar el archivo:", error);
@@ -148,5 +97,3 @@ buttonDoc3.addEventListener("click", () => {
 buttonProducts.addEventListener("click", () => {
     sendFile(inputProducts, "products");
 });
-
-</script>

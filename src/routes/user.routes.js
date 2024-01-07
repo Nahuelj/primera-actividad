@@ -4,12 +4,17 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const { folder } = req.body;
+        console.log(req.params);
+        const { type } = req.params;
+        console.log(type);
+        let folder = type;
         cb(null, `uploads/${folder}`);
         console.log(folder);
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + file.originalname);
+        const { uid } = req.params;
+        console.log(uid);
+        cb(null, uid + "-" + Date.now() + file.originalname);
     },
 });
 
@@ -18,7 +23,7 @@ const upload = multer({ storage: storage });
 export const routerUserPremium = Router();
 
 routerUserPremium.post(
-    "/users/:uid/documents",
+    "/users/:uid-:type/documents",
     upload.single("myFile"),
     (req, res) => {
         res.json({ message: "file uploaded" });
