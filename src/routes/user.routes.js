@@ -70,11 +70,7 @@ routerUserPremium.put("/users/premium/:uid", async (req, res) => {
                 array.some((objeto) => objeto.name === nombre),
             );
         }
-        const nombresABuscar = [
-            "identificacion",
-            "comprobante de domicilio",
-            "comprobante de estado de cuenta",
-        ];
+        const nombresABuscar = ["identification", "address", "statusCount"];
         const resultado = contieneTodasPropiedades(
             userFound.documents,
             nombresABuscar,

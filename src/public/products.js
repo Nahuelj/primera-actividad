@@ -77,9 +77,13 @@ checkbox.addEventListener("change", () => {
             } else if (data == "usuario pasado a user") {
                 containerDiv.innerHTML = "";
             }
+            alert("se actualizó el rol del usuario");
         })
         .catch((error) => {
-            console.error(error);
+            alert("falta documentación no es posible pasar a usuario premium");
+            console.log(error);
+            checkbox.check = false;
+            checkbox.checked = false;
         });
 });
 
