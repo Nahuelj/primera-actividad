@@ -54,7 +54,7 @@ const inputDoc2 = document.getElementById("domicilio");
 const inputDoc3 = document.getElementById("estadoCuenta");
 const inputProducts = document.getElementById("productsFile");
 
-async function sendFile(input, folder) {
+async function sendFile(input, folder, nameFile) {
     if (input.files.length > 0) {
         // Obtener el primer archivo seleccionado
         const archivo = input.files[0];
@@ -62,6 +62,12 @@ async function sendFile(input, folder) {
         // Crear un objeto FormData y agregar el archivo con un nombre específico
         const formData = new FormData();
         formData.append("myFile", archivo, archivo.name);
+
+        const jsonData = { name: nameFile }; // Reemplaza con tu propio JSON
+        formData.append(
+            "jsonData",
+            new Blob([JSON.stringify(jsonData)], { type: "application/json" }),
+        );
 
         // Realizar la solicitud fetch
         fetch(`http://localhost:8080/api/users/${userId}-${folder}/documents`, {
@@ -83,17 +89,17 @@ async function sendFile(input, folder) {
 }
 
 buttonProfile.addEventListener("click", () => {
-    sendFile(inputProfile, "profile");
+    sendFile(inputProfile, "profile", "profile");
 });
 buttonDoc1.addEventListener("click", () => {
-    sendFile(inputDoc1, "documents");
+    sendFile(inputDoc1, "documents", "identification");
 });
 buttonDoc2.addEventListener("click", () => {
-    sendFile(inputDoc2, "documents");
+    sendFile(inputDoc2, "documents", "address");
 });
 buttonDoc3.addEventListener("click", () => {
-    sendFile(inputDoc3, "documents");
+    sendFile(inputDoc3, "documents", "statusCount");
 });
 buttonProducts.addEventListener("click", () => {
-    sendFile(inputProducts, "products");
+    sendFile(inputProducts, "products", "product");
 });

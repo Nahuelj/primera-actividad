@@ -10,35 +10,35 @@
 <br />
     <label for="">Foto de perfil</label>
     <br />
-    <input id="profileFile" name="myFile" type="file" />
+    <input id="profileFile" name="profile" type="file" />
     <br />
     <button id="buttonProfile" >Enviar</button>
 <br />
 <br />
     <label for="">Identificación</label>
     <br />
-    <input type="file" name="myFile" id="indentification" />
+    <input type="file" name="indentification" id="indentification" />
     <br />
     <button id="buttonDoc1" >Enviar</button>
 <br />
 <br />
     <label for="">Comprobante de domicilio</label>
     <br />
-    <input type="file" name="myFile" id="domicilio" />
+    <input type="file" name="address" id="domicilio" />
     <br />
     <button id="buttonDoc2" >Enviar</button>
 <br />
 <br />
     <label for="">Comprobante de estado de cuenta</label>
     <br />
-    <input type="file" name="myFile" id="estadoCuenta" />
+    <input type="file" name="statusCount" id="estadoCuenta" />
     <br />
     <button id="buttonDoc3" >Enviar</button>
     <br>
     <br>
     <label for="">Foto de productos</label>
     <br />
-    <input type="file" id="productsFile" />
+    <input name="products" type="file" id="productsFile" />
     <br />
     <button id="buttonProducts" >Enviar</button>
 <br>
@@ -105,7 +105,7 @@ const inputDoc2 = document.getElementById("domicilio");
 const inputDoc3 = document.getElementById("estadoCuenta");
 const inputProducts = document.getElementById("productsFile");
 
-async function sendFile(input, folder) {
+async function sendFile(input, folder, nameFile) {
     if (input.files.length > 0) {
         // Obtener el primer archivo seleccionado
         const archivo = input.files[0];
@@ -122,8 +122,8 @@ async function sendFile(input, folder) {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Respuesta del servidor:", data);
-                input.value ="";
-                alert("file upload")
+                input.value = "";
+                alert("file upload");
             })
             .catch((error) => {
                 console.error("Error al enviar el archivo:", error);
@@ -137,16 +137,17 @@ buttonProfile.addEventListener("click", () => {
     sendFile(inputProfile, "profile");
 });
 buttonDoc1.addEventListener("click", () => {
-    sendFile(inputDoc1, "documents");
+    sendFile(inputDoc1, "identification");
 });
 buttonDoc2.addEventListener("click", () => {
-    sendFile(inputDoc2, "documents");
+    sendFile(inputDoc2, "address");
 });
 buttonDoc3.addEventListener("click", () => {
-    sendFile(inputDoc3, "documents");
+    sendFile(inputDoc3, "statusCount");
 });
 buttonProducts.addEventListener("click", () => {
     sendFile(inputProducts, "products");
 });
+
 
 </script>

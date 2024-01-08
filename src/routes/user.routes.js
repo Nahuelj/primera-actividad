@@ -2,19 +2,22 @@ import { UserModel } from "../dao/models/user.model.js";
 import { Router } from "express";
 import multer from "multer";
 
+let nameFile = "";
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log(req.params);
         const { type } = req.params;
-        console.log(type);
-        let folder = type;
-        cb(null, `uploads/${folder}`);
-        console.log(folder);
+        if (type == "profile") {
+            cb(null, `uploads/profile`);
+        } else if (type == "products") {
+            cb(null, `uploads/products`);
+        } else {
+            cb(null, `uploads/documents`);
+        }
     },
     filename: function (req, file, cb) {
-        const { uid } = req.params;
-        console.log(uid);
-        cb(null, uid + "-" + Date.now() + file.originalname);
+        const { uid, type } = req.params;
+        nameFile = uid + "-" + type + "-" + file.originalname;
+        cb(null, uid + "-" + type + "-" + file.originalname);
     },
 });
 
@@ -25,7 +28,29 @@ export const routerUserPremium = Router();
 routerUserPremium.post(
     "/users/:uid-:type/documents",
     upload.single("myFile"),
-    (req, res) => {
+    async (req, res) => {
+        const { type, uid } = req.params;
+        let folder = "";
+
+        if (type == "profile") {
+            folder = "profile";
+        } else if (type == "products") {
+            folder = "products";
+        } else {
+            folder = "documents";
+        }
+
+        const userFound = await UserModel.findOne({ _id: uid });
+        const userDocuments = userFound.documents;
+        const newDocumentsUser = [
+            ...userDocuments,
+            { name: type, reference: `/src/uploads/${folder}/${nameFile}` },
+        ];
+
+        userFound.documents = newDocumentsUser;
+        const userSaved = await userFound.save();
+        console.log(userSaved);
+
         res.json({ message: "file uploaded" });
     },
 );
