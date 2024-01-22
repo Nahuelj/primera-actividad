@@ -51,7 +51,7 @@ recoverPasswordRouter.post("/recoverPassword", async (req, res) => {
         Ecommerce Coderhouse
       `,
     };
-    const result = await transporter.sendMail(mail);
+    await transporter.sendMail(mail);
     res.redirect("/recoverPassword/user");
 });
 

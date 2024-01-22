@@ -7,6 +7,51 @@ import {
 } from "../services/validateStock.service.js";
 import { ticketModel } from "../dao/models/ticket.model.js";
 import { v4 } from "uuid";
+import { transporter } from "../helpers/nodemailer.js";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+import { UserModel } from "../dao/models/user.model.js";
+
+async function mailTicket(user, ticketSaved) {
+    const userFound = await UserModel.findOne({ email: user });
+
+    async function namesProducts(ticketSaved) {
+        const ticket = await ticketModel
+            .findById(ticketSaved?._id)
+            .populate("products");
+        const productNames = ticket.products.reduce(
+            (accumulator, product, index) => {
+                accumulator += `${index + 1}. ${product?.title.trimStart()}\n`;
+                return accumulator;
+            },
+            "",
+        );
+
+        return productNames;
+    }
+
+    const names = await namesProducts(ticketSaved);
+
+    const mail = {
+        from: `Ecommerce Coderhousee ${"noreply@coderhouse.com"}`,
+        to: user,
+        subject: "Recuperación de contraseña",
+        text: `
+        Hola ${userFound?.first_name},
+  
+        Tu compra ha sido procesada con exito.
+
+        Productos: 
+        ${names}
+
+        Total: ${ticketSaved?.amount}
+        
+        Gracias,
+        Ecommerce Coderhouse
+      `,
+    };
+    await transporter.sendMail(mail);
+}
 
 class Cart_Controller {
     async postCart(req, res) {
@@ -213,8 +258,9 @@ class Cart_Controller {
             amount: amout,
             purchaser: user,
         });
-        await ticket.save();
+        const ticketSaved = await ticket.save();
         deletedPurchasedProducts(cid, purchase);
+        await mailTicket(user, ticketSaved);
         res.json({ ticket, productsNotValidated: notPurchased });
     }
 }

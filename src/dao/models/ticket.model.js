@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const ticketSchema = new mongoose.Schema({
-    products: { type: Array },
+    products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
     code: { type: String, required: true },
     purchase_datetime: { type: Date, default: Date.now },
     amount: { type: Number, required: true },
