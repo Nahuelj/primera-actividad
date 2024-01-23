@@ -35,7 +35,7 @@ async function mailTicket(user, ticketSaved) {
     const mail = {
         from: `Ecommerce Coderhousee ${"noreply@coderhouse.com"}`,
         to: user,
-        subject: "Recuperación de contraseña",
+        subject: "Ticket de compra",
         text: `
         Hola ${userFound?.first_name},
   
