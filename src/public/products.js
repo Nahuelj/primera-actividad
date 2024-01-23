@@ -28,7 +28,6 @@ async function getCurrentUser() {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             const { first_name, role, cart, email, _id } = data;
             currentUser = data;
             userName = first_name;
@@ -81,7 +80,6 @@ checkbox.addEventListener("change", () => {
         })
         .catch((error) => {
             alert("falta documentación no es posible pasar a usuario premium");
-            console.log(error);
             checkbox.check = false;
             checkbox.checked = false;
         });
@@ -155,22 +153,16 @@ async function fetchToCart(element) {
             return response.json();
         })
         .then((data) => {
-            console.log(data.payload);
             let arrayDeObjetos = data.payload;
             const index = arrayDeObjetos.findIndex(
                 (objeto) => objeto.title === element,
             );
             _id = arrayDeObjetos[index]._id;
-            console.log(_id);
         })
         .catch((error) => {
             console.error(error);
         });
 
-    console.log("cartIDDD", cartId, "IDDDDPRODUCT", _id);
-    console.log(
-        "carrito encontrado se sumo el producto al carrito" + " " + cartId,
-    );
     const url1 = `http://localhost:8080/api/carts/${cartId}/products/${_id}`;
 
     const requestOptions1 = {
@@ -186,7 +178,6 @@ async function fetchToCart(element) {
         })
         .then((data) => {
             alert("producto agregado al carrito" + " " + cartId);
-            console.log(data);
         })
         .catch((error) => {
             console.error(error);

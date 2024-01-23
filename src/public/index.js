@@ -90,7 +90,6 @@ function addProduct() {
             category: "unknown",
             owner: userOwner,
         };
-        console.log(dataProduct);
         const url = "http://localhost:8080/api/products/";
         const requestOptions = {
             method: "POST",
@@ -107,9 +106,7 @@ function addProduct() {
                 }
                 return response.json();
             })
-            .then((data) => {
-                console.log(data);
-            })
+            .then((data) => {})
             .catch((error) => {
                 console.error(error);
             });
@@ -137,9 +134,7 @@ function deleteProduct() {
             }
             return response.json();
         })
-        .then((data) => {
-            console.log(data);
-        })
+        .then((data) => {})
         .catch((error) => {
             console.error(error);
         });

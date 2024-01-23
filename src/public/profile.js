@@ -1,5 +1,3 @@
-console.log("index tomado");
-
 let userName;
 let userRole;
 let cartId;
@@ -15,7 +13,6 @@ async function getCurrentUser() {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             const { first_name, role, cart, _id } = data;
             userId = _id;
             userName = first_name;
@@ -36,7 +33,6 @@ setTimeout(() => {
     const formProfile = document.getElementById("formFileProfile");
     const formDoc = document.getElementById("formFileDoc");
     const formProducts = document.getElementById("formFileProducts");
-    console.log(formProfile, formProducts, formDoc);
     formProfile.action = `/api/users/${userId}-profile/documents`;
     formDoc.action = `/api/users/${userId}-documents/documents`;
     formProducts.action = `/api/users/${userId}-products/documents`;
@@ -76,7 +72,6 @@ async function sendFile(input, folder, nameFile) {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Respuesta del servidor:", data);
                 input.value = "";
                 alert("file upload");
             })

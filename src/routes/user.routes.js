@@ -49,7 +49,6 @@ routerUserPremium.post(
 
         userFound.documents = newDocumentsUser;
         const userSaved = await userFound.save();
-        console.log(userSaved);
 
         res.json({ message: "file uploaded" });
     },

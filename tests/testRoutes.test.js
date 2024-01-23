@@ -19,7 +19,6 @@ describe("Test route products", async function () {
             const response = await requester.get("/api/products");
             expect(response.status).to.equal(200);
         } catch (error) {
-            console.log("Somenting went wrong");
             throw error;
         }
     });
@@ -30,7 +29,6 @@ describe("Test route products", async function () {
             chai.expect(object).to.have.property("status");
             chai.expect(object).to.have.property("payload");
         } catch (error) {
-            console.log("Somenting went wrong");
             throw error;
         }
     });
@@ -56,7 +54,6 @@ describe("Test route products", async function () {
                 chai.expect(object).to.have.property(prop);
             });
         } catch (error) {
-            console.log("Somenting went wrong");
             throw error;
         }
     });
@@ -69,7 +66,6 @@ describe("Test route carts", async function () {
             const response = await requester.get("/api/carts");
             expect(response.status).to.equal(200);
         } catch (error) {
-            console.log("Somenting went wrong");
             throw error;
         }
     });
@@ -79,7 +75,6 @@ describe("Test route carts", async function () {
             const object = response.body;
             chai.expect(object).to.be.instanceOf(Array);
         } catch (error) {
-            console.log("Somenting went wrong");
             throw error;
         }
     });
@@ -92,7 +87,6 @@ describe("Test route carts", async function () {
                 chai.expect(cart).to.have.property("_id");
             });
         } catch (error) {
-            console.log("Somenting went wrong");
             throw error;
         }
     });
@@ -122,7 +116,6 @@ describe("Test route session", async function () {
 
             expect(object).to.equal("Found. Redirecting to /failregister");
         } catch (error) {
-            console.log("Something went wrong", error);
             throw error;
         }
     });
@@ -143,7 +136,6 @@ describe("Test route session", async function () {
 
             expect(object).to.equal("Found. Redirecting to /login");
         } catch (error) {
-            console.log("Something went wrong", error);
             throw error;
         }
     });
@@ -156,7 +148,6 @@ describe("Test route session", async function () {
 
             expect(object).to.equal("Found. Redirecting to /login");
         } catch (error) {
-            console.log("Something went wrong", error);
             throw error;
         }
     });
